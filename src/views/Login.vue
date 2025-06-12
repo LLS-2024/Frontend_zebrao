@@ -1,5 +1,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
-<script setup></script>
+<script setup>
+import FormLoginCompo from '@/components/FormLoginCompo.vue';
+</script>
 
 <template>
   <main class="main">
@@ -9,6 +11,7 @@
       <p>A melhor experiencia</p></div>
       <div class="dados">
       <h3>Cadastre-se</h3>
+      <FormLoginCompo/>
       </div>
       </div>
       <div><img src="/login/image.png" alt="Imagem nítida" /></div>
