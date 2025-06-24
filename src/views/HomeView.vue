@@ -1,11 +1,12 @@
 <script setup>
+
 </script>
 
 <template>
   <main>
-    <RouterLink to="/cadastro">Cadastro</RouterLink>
-   <h1>Página de Cadastro</h1>
+  <RouterLink to="/login">Login</RouterLink>
+  <RouterLink to="/cadastro">Cadastro</RouterLink>
+   <h1>Página Inicial</h1>
 
   </main>
 </template>
-
