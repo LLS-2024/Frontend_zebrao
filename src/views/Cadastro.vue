@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <script setup>
 
 </script>
@@ -14,7 +15,7 @@
         </div>
 
         <div class="form-group">
-          <input type="password" id="senha" required placeholder="Senha"/>
+          <input type="password" id="senha" required placeholder="Senha" minlength="8"/>
         </div>
 
         <div class="form-group">
@@ -23,11 +24,11 @@
         </div>
 
         <div class="form-group">
-          <input type="text" id="cep" required placeholder="CEP"/>
+          <input type="text" id="cep" required placeholder="CEP"  minlength="8" maxlength="8"/>
         </div>
 
         <div class="form-group">
-          <input type="text" id="cpf" required placeholder="CPF"/>
+          <input type="text" id="cpf" required placeholder="CPF" minlength="11" maxlength="11"/>
         </div>
 
         <p class="termos">

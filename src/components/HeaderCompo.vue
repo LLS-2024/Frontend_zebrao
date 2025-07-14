@@ -1,33 +1,33 @@
 <template>
-        <header class="header">
-  <div class="logo">
-    <div class="imgLogo">
-      <img src="/src/assets/logo.png" alt="" />
+  <header class="header">
+    <div class="logo">
+      <div class="imgLogo">
+        <RouterLink to="/"> <img src="/src/assets/logo.png" alt="" /></RouterLink>
+      </div>
+      <div class="nome">
+        <p class="p1">Zebrão</p>
+        <p class="p2">Sorvetes</p>
+      </div>
     </div>
-    <div class="nome">
-      <p class="p1">Zebrão</p>
-      <p class="p2">Sorvetes</p>
+    <div class="links">
+      <RouterLink to="/login">Login</RouterLink>
+      <RouterLink to="/cadastro">Cadastro</RouterLink>
+      <RouterLink to="/login">Login</RouterLink>
+      <RouterLink to="/login">Login</RouterLink>
+      <RouterLink to="/login">Login</RouterLink>
+      <RouterLink to="/login">Login</RouterLink>
     </div>
-  </div>
-  <div class="links">
-    <RouterLink to="/login">Login</RouterLink>
-    <RouterLink to="/login">Login</RouterLink>
-    <RouterLink to="/login">Login</RouterLink>
-    <RouterLink to="/login">Login</RouterLink>
-    <RouterLink to="/login">Login</RouterLink>
-    <RouterLink to="/login">Login</RouterLink>
-  </div>
-  <div class="pesquisa"></div>
-  <div class="pessoa"></div>
+    <div class="pesquisa"></div>
+    <div class="pessoa"></div>
   </header>
 </template>
 <style scoped>
-.header{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-    padding: 10px;
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  padding: 10px;
 }
 .logo {
   display: flex;
@@ -42,13 +42,13 @@
 .p2 {
   color: #2867b2;
 }
-.links{
-    padding: 10px;
+.links {
+  padding: 10px;
 }
-.links a{
-    text-decoration: none;
-    color: black;
-    padding: 10px;
+.links a {
+  text-decoration: none;
+  color: black;
+  padding: 10px;
 }
 </style>
 <script setup></script>
