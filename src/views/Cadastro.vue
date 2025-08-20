@@ -1,43 +1,82 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <script setup>
+import { ref } from 'vue'
 
+const nome = ref('')
+const email = ref('')
+const senha = ref('')
+const confirmarSenha = ref('')
+const dataNascimento = ref('')
+const cep = ref('')
+const cpf = ref('')
+const erro = ref('')
+
+const cadastrar = (event) => {
+  event.preventDefault()
+  erro.value = ''
+
+  if (!nome.value || !email.value || !senha.value || !confirmarSenha.value || !dataNascimento.value || !cep.value || !cpf.value) {
+    erro.value = 'Preencha todos os campos.'
+    return
+  }
+
+  if (senha.value.length < 8) {
+    erro.value = 'A senha deve ter no mínimo 8 caracteres.'
+    return
+  }
+
+  if (senha.value !== confirmarSenha.value) {
+    erro.value = 'As senhas não coincidem.'
+    return
+  }
+
+  alert('Cadastro realizado com sucesso!')
+}
 </script>
+
 <template>
-    <div class="cadastro-container">
-      <h1>Cadastre-se aqui!</h1>
-      <form>
-        <div class="form-group">
-          <input type="text" id="nome" required placeholder="Nome completo" />
-        </div>
-
-        <div class="form-group">
-          <input type="email" id="email" required placeholder="E-mail"/>
-        </div>
-
-        <div class="form-group">
-          <input type="password" id="senha" required placeholder="Senha"/>
-        </div>
-
-        <div class="form-group">
-          <label for="dataNascimento">Data de Nascimento:</label>
-          <input type="date" id="dataNascimento" required/>
-        </div>
-
-        <div class="form-group">
-          <input type="text" id="cep" required placeholder="CEP"/>
-        </div>
-
-        <div class="form-group">
-          <input type="text" id="cpf" required placeholder="CPF"/>
-        </div>
-
-        <p class="termos">
-          As pessoas que usam nosso serviço podem ter carregado suas informações de contato no Medium. Saiba mais.<br><br>
-          Ao clicar em Cadastre-se, você concorda com nossos Termos, Política de Privacidade e Política de Cookies. Você poderá receber notificações por SMS e cancelar isso quando quiser.
-        </p>
-
-        <button type="submit">Cadastre-se</button>
-      </form>
+  <div class="cadastro-container">
+    <h1>Cadastre-se aqui!</h1>
+    <form @submit="cadastrar">
+      <div class="form-group">
+        <input type="text" v-model="nome" placeholder="Nome completo" />
       </div>
+
+      <div class="form-group">
+        <input type="email" v-model="email" placeholder="E-mail" />
+      </div>
+
+      <div class="form-group">
+        <input type="password" v-model="senha" placeholder="Senha" />
+      </div>
+
+      <div class="form-group">
+        <input type="password" v-model="confirmarSenha" placeholder="Confirmar senha" />
+      </div>
+
+      <div class="form-group">
+        <label for="dataNascimento">Data de Nascimento:</label>
+        <input type="date" v-model="dataNascimento" />
+      </div>
+
+      <div class="form-group">
+        <input type="text" v-model="cep" placeholder="CEP" />
+      </div>
+
+      <div class="form-group">
+        <input type="text" v-model="cpf" placeholder="CPF" />
+      </div>
+
+      <p class="termos">
+        As pessoas que usam nosso serviço podem ter carregado suas informações de contato no Medium. Saiba mais.<br><br>
+        Ao clicar em Cadastre-se, você concorda com nossos Termos, Política de Privacidade e Política de Cookies. Você poderá receber notificações por SMS e cancelar isso quando quiser.
+      </p>
+
+      <button type="submit">Cadastre-se</button>
+
+      <p v-if="erro" style="color: red; text-align: center; margin-top: 10px;">{{ erro }}</p>
+    </form>
+  </div>
 </template>
 
 <style scoped>
@@ -68,7 +107,6 @@ input {
 button {
   display: block;
   margin: 1rem auto 0 auto;
-  align-items: center;
   padding: 0.5rem 1rem;
   background-color: #44626D;
   color: white;
@@ -76,8 +114,7 @@ button {
   cursor: pointer;
 }
 h1 {
-text-align: center;
-color: white
+  text-align: center;
+  color: white;
 }
-
 </style>
