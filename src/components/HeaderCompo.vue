@@ -11,11 +11,9 @@
   </div>
   <div class="links">
     <RouterLink to="/login">Login</RouterLink>
-    <RouterLink to="/login">Login</RouterLink>
-    <RouterLink to="/login">Login</RouterLink>
-    <RouterLink to="/login">Login</RouterLink>
-    <RouterLink to="/login">Login</RouterLink>
-    <RouterLink to="/login">Login</RouterLink>
+    <RouterLink to="/">Início</RouterLink>
+    <RouterLink to="/cadastro">Cadastro</RouterLink>
+    
   </div>
   <div class="pesquisa"></div>
   <div class="pessoa"></div>
