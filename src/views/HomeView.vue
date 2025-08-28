@@ -22,7 +22,19 @@
        <div><img src="/public/pagInicial/1.png" alt=""></div>
       <div><img src="/public/pagInicial/2.png" alt=""></div>
        <div><img src="/public/pagInicial/3.png" alt=""></div></div>
-     
+
+    </div>
+    <div class="cont3">
+      <div class="texto">
+      <h2>🎉 Você sabia? Sorvete também tem seus benefícios! 🍦✨</h2>
+      <p>Muito mais do que uma sobremesa saborosa, o sorvete pode oferecer diversos benefícios quando consumido com moderação. Por ser feito com leite ou ingredientes naturais, ele contém cálcio e fósforo, importantes para a saúde dos ossos e dos dentes.
+Além disso, o sorvete é uma fonte rápida de energia, ideal para momentos em que precisamos de um estímulo extra. E não para por aí: ele também pode melhorar o humor, já que estimula a liberação de dopamina, o neurotransmissor responsável pela sensação de prazer e bem-estar.</p>
+      </div>
+      <div><img src="/public/pagInicial/sorvt.png" alt=""></div>
+
+    </div>
+    <div class="cont4">
+    
     </div>
   </main>
 </template>
@@ -81,5 +93,27 @@ flex-direction: row;
 justify-content: space-around;
 margin-left: 300px;
 
+}
+.cont3{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding: 50px 200px;
+  align-items: center;
+}
+.cont3 img{
+  width: 400px;
+  height: 500px;
+}
+.cont3 h2{
+  font-family: 'Work Sans', sans-serif;
+  font-size: 30px;
+  font-weight: 600;
+}
+.cont3 p{
+  font-family: 'Work Sans', sans-serif;
+  font-size: 18px;
+  color: #464746;
+  font-weight: 300;
 }
 </style>
