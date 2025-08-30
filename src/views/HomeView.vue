@@ -1,4 +1,6 @@
-<script setup></script>
+<script setup>
+import SorveteHomeCompo from '@/components/SorveteHomeCompo.vue'
+</script>
 
 <template>
   <main>
@@ -34,8 +36,28 @@ Além disso, o sorvete é uma fonte rápida de energia, ideal para momentos em q
 
     </div>
     <div class="cont4">
-    
+    <div class="text"><h2>Com ingredientes naturais</h2></div>
+    <div class="deco"><img src="/public/pagInicial/shape.png" alt=""></div>
+    <div class="imgs">
+<div><img src="/public/pagInicial/27.png" alt=""></div>
+<div><img src="/public/pagInicial/28 (1).png" alt=""></div>
+<div><img src="/public/pagInicial/29.png" alt=""></div>
+<div><img src="/public/pagInicial/30.png" alt=""></div>
+<div><img src="/public/pagInicial/31.png" alt=""></div>
+
     </div>
+    </div>
+    <div class="cont5">
+      <SorveteHomeCompo />
+    </div>
+    <div class="cont6">
+    <div class="texto"><div><h2>Sobre nós</h2></div>
+    <div class="deco"><img src="/public/pagInicial/shape.png" alt=""></div></div>
+    <div class="div">
+    <div class="sobre"><div class="surgi"><p>A sorveteria Zebrão surgiu nos anos 80, em uma época marcada por cores vibrantes, músicas animadas e um desejo coletivo de aproveitar momentos simples e deliciosos. Localizada em uma esquina movimentada da cidade, Zebrão logo se tornou um ponto de encontro para famílias, amigos e jovens que buscavam refrescar-se com um bom sorvete depois de um dia quente.</p></div>
+    <div class="surgi"><p>Com o tempo, a sorveteria se tornou famosa não apenas pelos sabores únicos e artesanais, mas também pelo ambiente animado e acolhedor. Cadeiras coloridas, músicas tocando de um rádio antigo e crianças correndo ao redor com casquinhas em mãos faziam parte do cenário diário.</p></div></div>
+    <div class="nos"><img src="/public/pagInicial/image 379.png" alt=""></div>
+    </div></div>
   </main>
 </template>
 <style scoped>
@@ -115,5 +137,87 @@ margin-left: 300px;
   font-size: 18px;
   color: #464746;
   font-weight: 300;
+}
+.cont4{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.cont4 .imgs{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+.cont4 .imgs img{
+  width: 150px;
+  height: 200px;
+  padding: 20px;
+}
+.cont4 .deco img{
+  width: 250px;
+  height: 70px;
+  padding: 20px;
+
+}
+.cont4 .text h2{
+  font-family: 'Work Sans', sans-serif;
+  font-size: 30px;
+  font-weight: 600;
+  color: black;
+}
+.cont6{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 50px;
+}
+.cont6 h2{
+  font-family: 'Work Sans', sans-serif;
+  margin: 0px;
+}
+.div{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.sobre{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  width: 600px;
+  background-color: #D5EEE8;
+}
+.surgi{
+  padding: 20px;
+  margin: 10px;
+  font-family: 'Work Sans', sans-serif;
+  font-size: 18px;
+  color: #464746;
+  font-weight: 300;
+  background-color: white;
+}
+.nos img{
+  width: 400px;
+  height: 480px;
+
+}
+.cont6 .deco img{
+  width: 200px;
+  height: 50px;
+  padding: 20px;
+
+}
+.texto{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 </style>

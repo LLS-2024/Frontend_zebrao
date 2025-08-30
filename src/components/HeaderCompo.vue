@@ -13,7 +13,7 @@
     <RouterLink to="/login">Login</RouterLink>
     <RouterLink to="/">Início</RouterLink>
     <RouterLink to="/cadastro">Cadastro</RouterLink>
-    
+
   </div>
   <div class="pesquisa"></div>
   <div class="pessoa"></div>
@@ -47,6 +47,7 @@
     text-decoration: none;
     color: black;
     padding: 10px;
+    font-family: 'Work Sans', sans-serif;
 }
 </style>
 <script setup></script>
