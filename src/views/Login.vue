@@ -49,14 +49,13 @@ import FormLoginCompo from '@/components/FormLoginCompo.vue';
 
 .main > * {
   position: relative;
-  z-index: 1;
 }
 .container{
     display: flex;
     flex-direction: row;
     margin: 60px;
 
-  
+
 }
 .inicio h1{
 
