@@ -1,6 +1,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup>
 import { ref } from 'vue'
+import axios from 'axios'
 
 const nome = ref('')
 const email = ref('')
@@ -11,8 +12,8 @@ const cep = ref('')
 const cpf = ref('')
 const erro = ref('')
 
-const cadastrar = (event) => {
-  event.preventDefault()
+const cadastrar = async () => {
+  // event.preventDefault()
   erro.value = ''
 
   if (!nome.value || !email.value || !senha.value || !confirmarSenha.value || !dataNascimento.value || !cep.value || !cpf.value) {
@@ -30,6 +31,14 @@ const cadastrar = (event) => {
     return
   }
 
+  await axios.post('http://localhost:19003/api/users/', {
+    name: nome.value,
+    email: email.value,
+    password: senha.value,
+    cep: cep.value,
+    cpf: cpf.value
+  })
+
   alert('Cadastro realizado com sucesso!')
 }
 </script>
@@ -37,7 +46,7 @@ const cadastrar = (event) => {
 <template>
   <div class="cadastro-container">
     <h1>Cadastre-se aqui!</h1>
-    <form @submit="cadastrar">
+    <form @submit.prevent="cadastrar">
       <div class="form-group">
         <input type="text" v-model="nome" placeholder="Nome completo" />
       </div>
