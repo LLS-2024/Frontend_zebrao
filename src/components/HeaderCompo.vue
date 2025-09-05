@@ -17,6 +17,7 @@
   <button class="dropbtn">Categorias</button>
   <div class="dropdown-content">
   <RouterLink to="/Acai">Açaí</RouterLink>
+  <RouterLink to="/Geladinho">Geladinho</RouterLink>
   <RouterLink to="/Picole">Picolé</RouterLink>
   <RouterLink to="/Pote">Pote</RouterLink>
   </div>

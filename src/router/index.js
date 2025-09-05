@@ -4,6 +4,8 @@ import Cadastro from '../views/Cadastro.vue'
 import Login from '@/views/Login.vue'
 import Acai from '@/views/AcaiView.vue'
 import Picole from '@/views/PicoleView.vue'
+import Geladinho from '@/views/GeladinhoView.vue'
+import Pote from '@/views/PoteView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -35,6 +37,18 @@ const router = createRouter({
     name: 'Picolé',
     component: Picole,
     meta: { footerColor: "#DDA478" }
+  },
+  {
+    path: '/Geladinho',
+    name: 'Geladinho',
+    component: Geladinho,
+    meta: { footerColor: "#81E8A8" }
+  },
+  {
+    path: '/Pote',
+    name: 'Pote',
+    component: Pote,
+    meta: { footerColor: "#8192D5" }
   },
   ],
 })
