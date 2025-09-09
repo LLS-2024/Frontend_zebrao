@@ -1,6 +1,10 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup>
-import FormLoginCompo from '@/components/FormLoginCompo.vue';
+import '@passageidentity/passage-elements/passage-auth';
+
+const APP_ID = import.meta.env.VITE_PASSAGE_APP_ID;
+
+// import FormLoginCompo from '@/components/FormLoginCompo.vue';
 </script>
 
 <template>
@@ -9,9 +13,8 @@ import FormLoginCompo from '@/components/FormLoginCompo.vue';
       <div class="login">
       <div class="inicio"><h1>Zebrão</h1>
       <p>A melhor experiencia</p></div>
-      <div class="dados">
-      <h3>Cadastre-se</h3>
-      <FormLoginCompo/>
+      <div class="authContainer">
+        <passage-auth :app-id="APP_ID"></passage-auth>
       </div>
       </div>
       <div><img src="/login/image.png" alt="Imagem nítida" /></div>
