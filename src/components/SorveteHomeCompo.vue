@@ -1,3 +1,19 @@
+<script setup>
+import { ref, onMounted } from "vue"
+import axios from "axios"
+
+const produtos = ref([])
+const categoria = "sorvete" // use a categoria que realmente existe no banco
+
+onMounted(async () => {
+  try {
+    const res = await axios.get(`http://localhost:19003/api/produtos?categoria=${categoria}`)
+    produtos.value = res.data.results
+  } catch (err) {
+    console.error("Erro ao buscar produtos:", err.response?.data || err.message)
+  }
+})
+</script>
 <template>
   <div class="sorvete-home">
   <div class="txt">
@@ -9,19 +25,51 @@
 <div><button>Produtos novos</button></div>
 </div>
   </div>
-  <div class="sorvt">  <div class="slot"></div>
-  <div class="slot"></div>
-  <div class="slot"></div>
-  <div class="slot"></div></div>
-  <div class="sorvt"><div class="slot"></div>
-  <div class="slot"></div>
-  <div class="slot"></div>
-  <div class="slot"></div></div>
-
-
+  <div class="produtos">
+  <div class="produto" v-for="produto in produtos" :key="produto.id">
+       <!-- <img src="{{ produto.imagem.url }}" alt=""> - -->
+       <img :src="produto.imagem.url" alt="">
+       <p class="nome">
+       {{ produto.nome }}
+       </p>
+       <p class="preco">
+        $ {{ produto.preco }}
+       </p>
+  </div>
+  </div>
   </div>
 </template>
 <style scoped>
+.produtos {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.produto {
+  border: 1px solid #ccc;
+  background-color: white;
+  padding: 10px;
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  max-width: 25vw;
+
+  & img {
+    width: 50%;
+    height: auto;
+    margin-bottom: 10px;
+  }
+
+  & .nome {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+
+  & .preco {
+    color: #888;
+  }
+}
 .sorvete-home{
   display: flex;
   flex-direction: column;
