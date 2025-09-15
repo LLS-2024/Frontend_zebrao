@@ -3,16 +3,14 @@ import { ref, onMounted } from "vue"
 import axios from "axios"
 
 const produtos = ref([])
-const categoria = "sorvete" // use a categoria que realmente existe no banco
 
 onMounted(async () => {
   try {
-    const res = await axios.get(`http://localhost:19003/api/produtos?categoria=${categoria}`)
-    produtos.value = res.data.results
+    const res = await axios.get('http://localhost:19003/api/produtos/?categoria=sorvete')
+    produtos.value = res.data.results ?? res.data
   } catch (err) {
     console.error("Erro ao buscar produtos:", err.response?.data || err.message)
-  }
-})
+  }})
 </script>
 <template>
   <div class="sorvete-home">
@@ -28,13 +26,16 @@ onMounted(async () => {
   <div class="produtos">
   <div class="produto" v-for="produto in produtos" :key="produto.id">
        <!-- <img src="{{ produto.imagem.url }}" alt=""> - -->
-       <img :src="produto.imagem.url" alt="">
-       <p class="nome">
+       <div class="slot"><div><img :src="produto.imagem.url" alt=""></div>
+       <div> <p class="nome">
        {{ produto.nome }}
-       </p>
-       <p class="preco">
+       </p></div></div>
+
+       <div><p class="preco">
         $ {{ produto.preco }}
-       </p>
+       </p></div>
+
+
   </div>
   </div>
   </div>
@@ -46,29 +47,41 @@ onMounted(async () => {
   justify-content: center;
 }
 .produto {
-  border: 1px solid #ccc;
+  width: 150px;
+  height: auto;
   background-color: white;
-  padding: 10px;
-  margin: 10px;
+  margin: 10px 10px;
   display: flex;
   flex-direction: column;
-  text-align: center;
-  max-width: 25vw;
-
-  & img {
-    width: 50%;
-    height: auto;
-    margin-bottom: 10px;
-  }
+  justify-content: space-between;
+  align-items: left;
+  padding: 10px;
 
   & .nome {
-    font-weight: bold;
-    margin-bottom: 5px;
+    font-family: 'Work Sans', sans-serif;
+font-weight: 600;
+font-style: normal;
+font-size: 15px;
+line-height: 100%;
+letter-spacing: 0%;
+
   }
 
   & .preco {
     color: #888;
   }
+}
+.slot{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.slot img{
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 .sorvete-home{
   display: flex;
@@ -83,12 +96,7 @@ onMounted(async () => {
   flex-direction: row;
   justify-content: center;
 }
-.slot{
-  width: 150px;
-  height: 200px;
-  background-color: white;
-  margin: 10px 10px;
-}
+
 .txt{
   display: flex;
   flex-direction: column;
