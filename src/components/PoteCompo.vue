@@ -3,11 +3,11 @@ import { ref, onMounted } from "vue"
 import axios from "axios"
 
 const produtos = ref([])
-const categoria = "pote" // use a categoria que realmente existe no banco
+
 
 onMounted(async () => {
   try {
-    const res = await axios.get(`http://localhost:19003/api/produtos?categoria=${categoria}`)
+        const res = await axios.get(`https://backend-zebrao.onrender.com/api//api/produtos?categoria=sorvete`)
     produtos.value = res.data.results
   } catch (err) {
     console.error("Erro ao buscar produtos:", err.response?.data || err.message)

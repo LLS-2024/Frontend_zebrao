@@ -6,7 +6,7 @@ const produtos = ref([])
 
 onMounted(async () => {
   try {
-    const res = await axios.get('http://localhost:19003/api/produtos/?categoria=sorvete')
+     const res = await axios.get(`https://backend-zebrao.onrender.com/api//api/produtos?categoria=sorvete`)
     produtos.value = res.data.results ?? res.data
   } catch (err) {
     console.error("Erro ao buscar produtos:", err.response?.data || err.message)
