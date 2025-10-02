@@ -3,12 +3,11 @@ import { ref, onMounted } from "vue"
 import axios from "axios"
 
 const produtos = ref([])
-const categoria = "picole" // use a categoria que realmente existe no banco
 
 onMounted(async () => {
   try {
-    const res = await axios.get(`http://localhost:19003/api/produtos?categoria=${categoria}`)
-    produtos.value = res.data.results
+    const res = await axios.get('http://localhost:19003/api/produtos/?categoria_id=2')
+    produtos.value = res.data.results ?? res.data
   } catch (err) {
     console.error("Erro ao buscar produtos:", err.response?.data || err.message)
   }
