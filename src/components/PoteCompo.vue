@@ -6,7 +6,7 @@ const produtos = ref([])
 
 onMounted(async () => {
   try {
-    const res = await axios.get('http://localhost:19003/api/produtos/?categoria_id=5')
+    const res = await axios.get('http://localhost:19003/api/produtos/?categoria_id=3')
     produtos.value = res.data.results ?? res.data
   } catch (err) {
     console.error("Erro ao buscar produtos:", err.response?.data || err.message)
