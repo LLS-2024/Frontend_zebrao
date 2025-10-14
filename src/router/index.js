@@ -6,6 +6,7 @@ import Acai from '@/views/AcaiView.vue'
 import Picole from '@/views/PicoleView.vue'
 import Geladinho from '@/views/GeladinhoView.vue'
 import Pote from '@/views/PoteView.vue'
+import Vizualizar from '@/views/VizualizarView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -49,6 +50,11 @@ const router = createRouter({
     name: 'Pote',
     component: Pote,
     meta: { footerColor: "#8192D5" }
+  },
+   {
+    path: '/vizualizar/:id',
+    name: 'Vizualizar',
+    component: Vizualizar
   },
   ],
 })
