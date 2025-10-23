@@ -5,6 +5,7 @@ import axios from "axios"
 
 const route = useRoute()
 const produto = ref(null)
+const quantidade = ref(1)
 
 onMounted(async () => {
   try {
@@ -14,94 +15,135 @@ onMounted(async () => {
     console.error("Erro ao carregar produto:", err)
   }
 })
+
+function adicionarAoCarrinho() {
+  alert(`${produto.value.nome} adicionado ao carrinho!`)
+}
 </script>
 
 <template>
   <div class="vizualizar-page">
 
 
-    <div v-if="produto" class="produto-detalhe">
-      <img :src="produto.imagem.url" alt="" class="imagem-produto" />
-      <div class="detalhes-produto">
-      <h2 class="nome">{{ produto.nome }}</h2>
-      <p class="preco"><b>Preço:</b> R$ {{ produto.preco }}</p>
-      <p class="descricao">{{ produto.descricao }}</p>
-
-      <button class="car">Adicionar ao carrinho</button>
+    <div v-if="produto" class="produto-container">
+      <div class="imagem-box">
+        <img :src="produto.imagem.url" alt="Imagem do produto" />
       </div>
+
+      <div class="detalhes">
+        <h1 class="titulo">{{ produto.nome }}</h1>
+
+        <div class="avaliacao">
+          ⭐⭐⭐⭐☆ <span>4.5/5</span>
+        </div>
+
+        <div class="preco-box">
+          <span class="preco-atual">R$ {{ produto.preco }}</span>
+        </div>
+
+        <p class="descricao">{{ produto.descricao }}</p>
+
+
+        <div class="quantidade">
+          <button @click="quantidade--" :disabled="quantidade === 1">−</button>
+          <span>{{ quantidade }}</span>
+          <button @click="quantidade++">+</button>
+        </div>
+
+        <button class="car" @click="adicionarAoCarrinho">Adicionar ao carrinho</button>
+      </div>
+
     </div>
 
-    <div v-else class="carregando">
-      <p>Carregando produto...</p>
-    </div>
+    <div v-else class="carregando">Carregando produto...</div>
     <button @click="$router.back()" class="btn-voltar">← Voltar</button>
   </div>
 </template>
 
 <style scoped>
 .vizualizar-page {
-  background-color: #FFF0F4;
+  background-color: #fff;
   padding: 40px;
   display: flex;
   flex-direction: column;
   align-items: center;
-
 }
 .btn-voltar {
-  background-color: white;
+  align-self: flex-start;
+  background: none;
   border: none;
-  border-radius: 8px;
-  padding: 8px 15px;
-  margin-bottom: 20px;
   cursor: pointer;
+  font-weight: bold;
+  margin-bottom: 20px;
 }
-.btn-voltar:hover {
-  background-color: #2867b2;
-  color: white;
-  transition: 0.3s;
-}
-.produto-detalhe {
-display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  align-items: center;
-}
-.detalhes-produto {
-  margin-left: 20px;
+.produto-container {
   display: flex;
-  flex-direction: column;
+  gap: 50px;
+  max-width: 900px;
+  background: #fff;
 }
-.imagem-produto {
-  width: 200px;
-  height: 200px;
-  object-fit: cover;
-  border-radius: 50%;
-}
-.nome{
-  font-family: 'Work Sans', sans-serif;
-  align-items: start;
-  margin-bottom: 0px;
-}
-.descricao {
-  padding: 20px 500px 20px 0px;
-  margin: 20px 0px;
-  color: #555;
-}
-.preco {
-  color: #333;
-  font-weight: 600;
-  margin-top: 2px;
-}
-.car{
-  background-color: black;
-  color: white;
-  padding: 10px;
+.imagem-box img {
+  width: 300px;
   border-radius: 10px;
 }
-.carregando {
-  font-family: 'Work Sans', sans-serif;
+.detalhes {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  font-family: 'work sans', sans-serif;
+}
+.titulo {
+  font-weight: 800;
+  font-size: 1.8rem;
+  margin-bottom: 8px;
+  font-family: 'work sans', sans-serif;
+}
+.avaliacao {
+  color: #f5b800;
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+  font-family: 'work sans', sans-serif;
+}
+.preco-box {
+  margin-bottom: 15px;
+}
+.preco-atual {
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+.descricao {
   color: #555;
-  margin-top: 40px;
+  font-size: 0.95rem;
+  margin: 10px 0 20px;
+  max-width: 400px;
+  font-family: 'work sans', sans-serif;
+}
 
+.quantidade {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+  font-family: 'work sans', sans-serif;
+}
+.quantidade button {
+  background: #eee;
+  border: none;
+  border-radius: 5px;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+.car {
+  background: black;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.carregando {
+  color: #555;
+  font-family: 'Work Sans', sans-serif;
 }
 </style>
