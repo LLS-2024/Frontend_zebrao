@@ -5,7 +5,7 @@ import axios from 'axios';
 // console.log('API Base URL:', process.env.VUE_APP_API_BASE_URL);
 
 // axios.defaults.baseURL = 'https://backend-zebrao.onrender.com/api';
-axios.defaults.baseURL = 'http://backend-zebrao.onrender.com/api';
+axios.defaults.baseURL = 'https://backend-zebrao.onrender.com/api';
 
 // Adiciona um interceptor para incluir o token de autenticação
 axios.interceptors.request.use(
