@@ -8,7 +8,7 @@ const router = useRouter()
 
 onMounted(async () => {
   try {
-    const res = await axios.get('http://localhost:19003/api/produtos/?categoria_id=6')
+    const res = await axios.get('http://backend-zebrao.onrender.com/api/produtos/?categoria_id=6')
     produtos.value = res.data.results ?? res.data
   } catch (err) {
     console.error('Erro ao buscar produtos:', err.response?.data || err.message)

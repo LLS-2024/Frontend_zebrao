@@ -9,7 +9,7 @@ const quantidade = ref(1)
 
 onMounted(async () => {
   try {
-    const res = await axios.get(`http://localhost:19003/api/produtos/${route.params.id}/`)
+    const res = await axios.get(`http://backend-zebrao.onrender.com/api/produtos/${route.params.id}/`)
     produto.value = res.data
   } catch (err) {
     console.error("Erro ao carregar produto:", err)
