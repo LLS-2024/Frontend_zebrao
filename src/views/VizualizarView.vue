@@ -6,17 +6,69 @@ import axios from "axios"
 const route = useRoute()
 const produto = ref(null)
 const quantidade = ref(1)
+const carrinho = ref(null)
+const user = ref(null)
 
 onMounted(async () => {
   try {
-    const res = await axios.get(`https://backend-zebrao.onrender.com/api/produtos/${route.params.id}/`)
-    produto.value = res.data
+    const resUser = await axios.get('http://localhost:8000/api/users/me/', {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("psg_auth_token")}`
+      }
+    })
+    const ResCarrinho = await axios.get('http://localhost:8000/api/carrinhos/?usuario_id=' + resUser.data.id)
+    const resProduto = await axios.get(`http://localhost:8000/api/produtos/${route.params.id}/`)
+    produto.value = resProduto.data
+    carrinho.value = ResCarrinho.data.results[0]
+    user.value = resUser.data
+    console.log(carrinho.value)
+    console.log("usuário" + user.value)
+    console.log(`token: ${localStorage.getItem("psg_auth_token")}`)
   } catch (err) {
     console.error("Erro ao carregar produto:", err)
   }
 })
 
-function adicionarAoCarrinho() {
+async function adicionarAoCarrinho() {
+  if (!carrinho.value) {
+    alert("Carrinho não encontrado para o usuário.")
+    return
+  }
+  const itemExistente = carrinho.value.itens.find(item => item.produto === produto.value.id)
+
+  console.log(itemExistente)
+
+  if (itemExistente) {
+
+    try {
+      const resUpdate = await axios.patch(`http://localhost:8000/api/itens-carrinho/${itemExistente.id}/`, {
+        quantidade: itemExistente.quantidade + quantidade.value
+      })
+      itemExistente.quantidade += quantidade.value
+    } catch (err) {
+      console.error("Erro ao atualizar item no carrinho:", err)
+      alert("Erro ao atualizar item no carrinho.")
+      return
+    }
+
+
+  } else {
+
+    try {
+      const resAdd = await axios.post('http://localhost:8000/api/itens-carrinho/', {
+        carrinho: carrinho.value.id,
+        produto: produto.value.id,
+        quantidade: quantidade.value
+      })
+      carrinho.value.itens.push(resAdd.data)
+    } catch (err) {
+      console.error("Erro ao adicionar item ao carrinho:", err)
+      alert("Erro ao adicionar item ao carrinho.")
+      return
+    }
+
+  }
+
   alert(`${produto.value.nome} adicionado ao carrinho!`)
 }
 </script>
