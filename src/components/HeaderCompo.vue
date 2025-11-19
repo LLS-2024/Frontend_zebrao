@@ -23,6 +23,7 @@
   </div>
 
   </div>
+  <div><RouterLink to="/carrinho">Carrinho</RouterLink></div>
   </div>
   <div class="pesquisa"></div>
   <div class="pessoa"></div>

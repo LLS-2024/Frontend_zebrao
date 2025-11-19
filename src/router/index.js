@@ -7,6 +7,7 @@ import Picole from '@/views/PicoleView.vue'
 import Geladinho from '@/views/GeladinhoView.vue'
 import Pote from '@/views/PoteView.vue'
 import Vizualizar from '@/views/VizualizarView.vue'
+import CarrinhoView from '@/views/CarrinhoView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -55,6 +56,11 @@ const router = createRouter({
     path: '/vizualizar/:id',
     name: 'Vizualizar',
     component: Vizualizar
+  },
+  {
+    path: '/carrinho',
+    name: 'carrinho',
+    component: CarrinhoView
   },
   ],
 })
