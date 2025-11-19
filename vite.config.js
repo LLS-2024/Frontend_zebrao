@@ -29,7 +29,7 @@ export default defineConfig({
             purpose: 'maskable',
           },
         ],
-        id: 'zabrao-sorvetes.surge',
+        id: 'zabrao-sorvetes.surge.sh',
         orientation: 'any',
         background_color: '#ffffff',
         start_url: '.',
