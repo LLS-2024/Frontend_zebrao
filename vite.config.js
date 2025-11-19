@@ -8,39 +8,36 @@ export default defineConfig({
   plugins: [
     vue(),
     VitePWA({
-      registerType: 'autoUpdate',
-      includeAssets: ['favicon.svg', 'apple-touch-icon.png', 'masked-icon.svg'],
-      manifest: {
-        name: 'Zebrão Sorveteria',
-        short_name: 'Zebrão Sorvetes',
-        description: 'Zebrão: Loja de sorvetes',
-        theme_color: '#ffffff',
-        icons: [
-          {
-            src: 'pwa-192x192.png',
-            sizes: '192x192',
-            type: 'image/png',
-            purpose: 'any',
-          },
-          {
-            src: 'pwa-512x512.png',
-            sizes: '512x512',
-            type: 'image/png',
-            purpose: 'maskable',
-          },
-        ],
-        id: 'zabrao-sorvetes.surge.sh',
-        orientation: 'any',
-        background_color: '#ffffff',
-        start_url: '.',
-        launch_handler: {
-          client_mode: ['navigate-existing', 'auto'],
-        },
+  registerType: 'autoUpdate',
+  includeAssets: ['favicon.svg', 'apple-touch-icon.png', 'masked-icon.svg'],
+  manifest: {
+    name: 'Zebrão Sorveteria',
+    short_name: 'Zebrão Sorvetes',
+    description: 'Zebrão: Loja de sorvetes',
+    theme_color: '#ffffff',
+    icons: [
+      {
+        src: '/pwa-192x192.png',
+        sizes: '192x192',
+        type: 'image/png'
       },
-      devOptions: {
-        enabled: true,
-      },
-    }),
+      {
+        src: '/pwa-512x512.png',
+        sizes: '512x512',
+        type: 'image/png',
+        purpose: 'maskable'
+      }
+    ],
+    id: '/',
+    start_url: '/',
+    background_color: '#ffffff',
+    orientation: 'any',
+  },
+  devOptions: {
+    enabled: true,
+  },
+})
+
   ],
   resolve: {
     alias: {
