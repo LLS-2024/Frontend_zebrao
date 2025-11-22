@@ -111,7 +111,6 @@ async function adicionarAoCarrinho() {
     <button @click="$router.back()" class="btn-voltar">← Voltar</button>
   </div>
 </template>
-
 <style scoped>
 .vizualizar-page {
   background-color: #fff;
@@ -120,6 +119,7 @@ async function adicionarAoCarrinho() {
   flex-direction: column;
   align-items: center;
 }
+
 .btn-voltar {
   align-self: flex-start;
   background: none;
@@ -128,47 +128,55 @@ async function adicionarAoCarrinho() {
   font-weight: bold;
   margin-bottom: 20px;
 }
+
 .produto-container {
   display: flex;
   gap: 50px;
   max-width: 900px;
   background: #fff;
+  flex-wrap: wrap;
+  justify-content: center;
 }
+
 .imagem-box img {
   width: 300px;
+  max-width: 100%;
   border-radius: 10px;
 }
+
 .detalhes {
   flex: 1;
   display: flex;
   flex-direction: column;
-  font-family: 'work sans', sans-serif;
+  font-family: 'Work Sans', sans-serif;
 }
+
 .titulo {
   font-weight: 800;
   font-size: 1.8rem;
   margin-bottom: 8px;
-  font-family: 'work sans', sans-serif;
 }
+
 .avaliacao {
   color: #f5b800;
   font-size: 0.9rem;
   margin-bottom: 10px;
-  font-family: 'work sans', sans-serif;
 }
+
 .preco-box {
   margin-bottom: 15px;
 }
+
 .preco-atual {
   font-size: 1.4rem;
   font-weight: bold;
 }
+
 .descricao {
   color: #555;
   font-size: 0.95rem;
   margin: 10px 0 20px;
   max-width: 400px;
-  font-family: 'work sans', sans-serif;
 }
 
 .quantidade {
@@ -176,8 +184,8 @@ async function adicionarAoCarrinho() {
   align-items: center;
   gap: 15px;
   margin-bottom: 20px;
-  font-family: 'work sans', sans-serif;
 }
+
 .quantidade button {
   background: #eee;
   border: none;
@@ -185,6 +193,7 @@ async function adicionarAoCarrinho() {
   padding: 6px 10px;
   cursor: pointer;
 }
+
 .car {
   background: black;
   color: white;
@@ -194,8 +203,62 @@ async function adicionarAoCarrinho() {
   font-weight: 600;
   cursor: pointer;
 }
+
 .carregando {
   color: #555;
   font-family: 'Work Sans', sans-serif;
+  text-align: center;
+}
+
+/* ====== RESPONSIVO ====== */
+
+/* Mobile (até 768px) */
+@media (max-width: 768px) {
+  .produto-container {
+    flex-direction: column;
+    gap: 20px;
+    padding: 10px;
+  }
+
+  .imagem-box img {
+    width: 100%;
+  }
+
+  .detalhes {
+    align-items: center;
+    text-align: center;
+  }
+
+  .descricao {
+    max-width: 90%;
+  }
+
+  .quantidade {
+    justify-content: center;
+  }
+
+  .car {
+    width: 80%;
+  }
+}
+
+/* Tablet (769px a 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .produto-container {
+    gap: 30px;
+    padding: 20px;
+  }
+
+  .imagem-box img {
+    width: 250px;
+  }
+
+  .descricao {
+    max-width: 300px;
+  }
+
+  .car {
+    width: 60%;
+  }
 }
 </style>

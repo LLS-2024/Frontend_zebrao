@@ -27,39 +27,90 @@ const entrar = () => {
 </script>
 
 <template>
-  <section>
+  <section class="container">
     <div class="dados">
-      <div class="nome">
-        <p><label for="nome">Nome</label></p>
+      <div class="campo">
+        <label for="nome">Nome</label>
         <input type="text" v-model="nome" id="nome" />
       </div>
 
-      <div class="email">
-        <p><label for="email">Email</label></p>
+      <div class="campo">
+        <label for="email">Email</label>
         <input type="email" v-model="email" id="email" />
       </div>
     </div>
 
-    <div class="senha">
-      <p><label for="senha">Senha</label></p>
-      <input type="password" v-model="senha" id="senha" name="senha" />
+    <div class="campo">
+      <label for="senha">Senha</label>
+      <input type="password" v-model="senha" id="senha" />
     </div>
 
-    <div>
-      <button @click="entrar" type="button">Entrar</button>
-    </div>
+    <button class="btn" @click="entrar" type="button">Entrar</button>
 
-    <p v-if="erro" style="color: red; margin-top: 10px;">{{ erro }}</p>
+    <p v-if="erro" class="erro">{{ erro }}</p>
   </section>
 </template>
 
 <style scoped>
+.container {
+  max-width: 450px;
+  margin: auto;
+  padding: 20px;
+}
+
 .dados {
   display: flex;
-  flex-direction: row;
+  gap: 15px;
+  flex-wrap: wrap;
 }
-.dados .nome,
-.dados .email {
-  margin: 8px;
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.campo label {
+  margin-bottom: 5px;
+  font-weight: 600;
+}
+
+input {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  outline: none;
+}
+
+input:focus {
+  border-color: #8bb7ff;
+}
+
+.btn {
+  width: 100%;
+  margin-top: 15px;
+  padding: 12px;
+  background: #5b8cff;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: #4b7ae0;
+}
+
+.erro {
+  color: red;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+@media (min-width: 600px) {
+  .dados .campo {
+    width: calc(50% - 10px);
+  }
 }
 </style>

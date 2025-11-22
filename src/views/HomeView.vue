@@ -1,45 +1,25 @@
 <script setup>
 import { onMounted } from 'vue';
-
 import { useAuthStore } from '@/stores/auth';
-import SorveteHomeCompo from '@/components/SorveteHomeCompo.vue'
-
+import SorveteHomeCompo from '@/components/SorveteHomeCompo.vue';
 
 const authStore = useAuthStore();
 
 const getUserInfo = async () => {
-  // try {
-    const authToken = localStorage.getItem('psg_auth_token');
-    console.log(authToken);
-    // const passage = new Passage(APP_ID);
-    // const user = passage.getCurrentUser();
-    // const userInfo = await user.userInfo();
-    // console.log(userInfo);
-    // console.log(authToken);
-
-    // const passageUser = new PassageUser(authToken);
-    // const user = await passageUser.userInfo(authToken);
-    // if (user) {
-    await authStore.setToken(authToken);
-    // } else {
-    //   authStore.unsetToken();
-    // }
-  // } catch (_) {
-  //   authStore.unsetToken();
-  // }
+  const authToken = localStorage.getItem('psg_auth_token');
+  await authStore.setToken(authToken);
 };
-
 
 onMounted(() => {
   getUserInfo();
 });
-
 </script>
 
 <template>
   <main>
+    <!-- ========================= CONT1 ========================= -->
     <div class="cont1">
-      <div>
+      <div class="cont1-text">
         <div class="con1">
           <p>Sabores do mundo</p>
           <p>em forma <span>De Sorvete</span></p>
@@ -48,210 +28,252 @@ onMounted(() => {
           <p>Sabores da felicidade</p>
         </div>
       </div>
-      <div>
-        <img src="/public/pagInicial/sorvticon1.png" alt="" />
+
+      <img class="cont1-img" src="/public/pagInicial/sorvticon1.png" alt="" />
+    </div>
+
+    <!-- ========================= CONT2 ========================= -->
+    <div class="cont2">
+      <p>"Bateu vontade de um sorvete gourmet?</p>
+
+      <div class="icon1">
+        <img src="/public/pagInicial/1.png" alt="">
+        <img src="/public/pagInicial/2.png" alt="">
+        <img src="/public/pagInicial/3.png" alt="">
       </div>
     </div>
-    <div class="cont2">
-      <div><p>"Bateu vontade de um sorvete gourmet?</p></div>
-      <div class="icon1">
-       <div><img src="/public/pagInicial/1.png" alt=""></div>
-      <div><img src="/public/pagInicial/2.png" alt=""></div>
-       <div><img src="/public/pagInicial/3.png" alt=""></div></div>
 
-    </div>
+    <!-- ========================= CONT3 ========================= -->
     <div class="cont3">
       <div class="texto">
-      <h2>🎉 Você sabia? Sorvete também tem seus benefícios! 🍦✨</h2>
-      <p>Muito mais do que uma sobremesa saborosa, o sorvete pode oferecer diversos benefícios quando consumido com moderação. Por ser feito com leite ou ingredientes naturais, ele contém cálcio e fósforo, importantes para a saúde dos ossos e dos dentes.
-Além disso, o sorvete é uma fonte rápida de energia, ideal para momentos em que precisamos de um estímulo extra. E não para por aí: ele também pode melhorar o humor, já que estimula a liberação de dopamina, o neurotransmissor responsável pela sensação de prazer e bem-estar.</p>
+        <h2>🎉 Você sabia? Sorvete também tem seus benefícios! 🍦✨</h2>
+        <p>
+          Muito mais do que uma sobremesa saborosa, o sorvete pode oferecer diversos benefícios quando consumido com moderação...
+        </p>
       </div>
-      <div><img src="/public/pagInicial/sorvt.png" alt=""></div>
 
+      <img class="cont3-img" src="/public/pagInicial/sorvt.png" alt="">
     </div>
+
+    <!-- ========================= CONT4 ========================= -->
     <div class="cont4">
-    <div class="text"><h2>Com ingredientes naturais</h2></div>
-    <div class="deco"><img src="/public/pagInicial/shape.png" alt=""></div>
-    <div class="imgs">
-<div><img src="/public/pagInicial/27.png" alt=""></div>
-<div><img src="/public/pagInicial/28 (1).png" alt=""></div>
-<div><img src="/public/pagInicial/29.png" alt=""></div>
-<div><img src="/public/pagInicial/30.png" alt=""></div>
-<div><img src="/public/pagInicial/31.png" alt=""></div>
+      <h2 class="text">Com ingredientes naturais</h2>
+      <img class="deco" src="/public/pagInicial/shape.png" alt="">
 
+      <div class="imgs">
+        <img src="/public/pagInicial/27.png" alt="">
+        <img src="/public/pagInicial/28 (1).png" alt="">
+        <img src="/public/pagInicial/29.png" alt="">
+        <img src="/public/pagInicial/30.png" alt="">
+        <img src="/public/pagInicial/31.png" alt="">
+      </div>
     </div>
-    </div>
+
+    <!-- ========================= CONT5 ========================= -->
     <div class="cont5">
       <SorveteHomeCompo />
     </div>
+
+    <!-- ========================= CONT6 ========================= -->
     <div class="cont6">
-    <div class="texto"><div><h2>Sobre nós</h2></div>
-    <div class="deco"><img src="/public/pagInicial/shape.png" alt=""></div></div>
-    <div class="div">
-    <div class="sobre"><div class="surgi"><p>A sorveteria Zebrão surgiu nos anos 80, em uma época marcada por cores vibrantes, músicas animadas e um desejo coletivo de aproveitar momentos simples e deliciosos. Localizada em uma esquina movimentada da cidade, Zebrão logo se tornou um ponto de encontro para famílias, amigos e jovens que buscavam refrescar-se com um bom sorvete depois de um dia quente.</p></div>
-    <div class="surgi"><p>Com o tempo, a sorveteria se tornou famosa não apenas pelos sabores únicos e artesanais, mas também pelo ambiente animado e acolhedor. Cadeiras coloridas, músicas tocando de um rádio antigo e crianças correndo ao redor com casquinhas em mãos faziam parte do cenário diário.</p></div></div>
-    <div class="nos"><img src="/public/pagInicial/image 379.png" alt=""></div>
-    </div></div>
+      <h2>Sobre nós</h2>
+      <img class="deco" src="/public/pagInicial/shape.png" alt="">
+
+      <div class="about">
+        <div class="sobre">
+          <p>
+            A sorveteria Zebrão surgiu nos anos 80...
+          </p>
+          <p>
+            Com o tempo, a sorveteria se tornou famosa...
+          </p>
+        </div>
+
+        <img class="nos-img" src="/public/pagInicial/image 379.png" alt="">
+      </div>
+    </div>
   </main>
 </template>
+
 <style scoped>
+/* =============================== GERAL =============================== */
+
 main {
+  width: 100%;
+  overflow-x: hidden;
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap;
+  gap: 40px;
 }
-.con2 p {
-  font-weight: 300;
-  color: #533931;
-  font-size: 20px;
-  font-family: 'Work Sans', sans-serif;
+
+img {
+  max-width: 100%;
+  height: auto;
 }
+
+/* =============================== CONT1 =============================== */
+
 .cont1 {
   display: flex;
-  flex-direction: row;
   align-items: center;
   justify-content: center;
+  padding: 20px;
+  flex-wrap: wrap;
+  text-align: center;
+  gap: 20px;
 }
 
 .con1 p {
-  font-size: 40px;
-  color: #533931;
-  font-family: 'Work Sans', sans-serif;
+  font-size: 32px;
   font-weight: 800;
-  margin: 0px;
+  margin: 0;
+  font-family: "Work Sans", sans-serif;
 }
+
 .con1 span {
   color: #1e9afa;
 }
-.cont1 img {
-  width: 550px;
-  height: 400px;
+
+.con2 p {
+  margin: 0;
+  font-weight: 300;
+  color: #533931;
 }
+
+/* =============================== CONT2 =============================== */
+
 .cont2 {
+  background: #fff0f4;
+  padding: 40px 10px;
   display: flex;
-  flex-direction: row;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  font-family:'Work Sans', sans-serif;
-  font-size: 20px;
-  font-weight: 800;
-  background-color: #FFF0F4;
-  padding: 50px;
+  text-align: center;
+  gap: 20px;
 }
-.icon1 img{
+
+.icon1 {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.icon1 img {
+  width: 100px;
+}
+
+/* =============================== CONT3 =============================== */
+
+.cont3 {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
+}
+
+.cont3 .texto {
+  max-width: 600px;
+  text-align: center;
+}
+
+.cont3 h2 {
+  font-size: 26px;
+}
+
+.cont3 p {
+  font-size: 16px;
+}
+
+/* =============================== CONT4 =============================== */
+
+.cont4 {
+  text-align: center;
+  padding: 20px;
+}
+
+.cont4 .imgs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.cont4 .imgs img {
+  width: 140px;
+}
+
+/* =============================== CONT5 =============================== */
+
+.cont5 {
+  width: 100%;
+}
+
+/* =============================== CONT6 =============================== */
+
+.cont6 {
+  text-align: center;
+  padding: 20px;
+}
+
+.about {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.sobre {
+  background: #d5eee8;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 600px;
+}
+
+.surgi {
+  background: white;
+  margin: 10px 0;
+  padding: 15px;
+}
+
+/* ======================= RESPONSIVO GERAL ======================= */
+
+/* MOBILE */
+@media (max-width: 600px) {
+  .con1 p {
+    font-size: 24px;
+  }
+
+  .icon1 img {
+    width: 70px;
+  }
+
+  .cont3 img {
+    max-width: 250px;
+  }
+
+  .cont4 .imgs img {
     width: 110px;
-    height: 150px;
-    padding: 20px;
-}
-.icon1{
-display: flex;
-flex-direction: row;
-justify-content: space-around;
-margin-left: 300px;
+  }
 
+  .nos-img {
+    max-width: 260px;
+  }
 }
-.cont3{
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  padding: 50px 200px;
-  align-items: center;
-}
-.cont3 img{
-  width: 400px;
-  height: 500px;
-}
-.cont3 h2{
-  font-family: 'Work Sans', sans-serif;
-  font-size: 30px;
-  font-weight: 600;
-}
-.cont3 p{
-  font-family: 'Work Sans', sans-serif;
-  font-size: 18px;
-  color: #464746;
-  font-weight: 300;
-}
-.cont4{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-.cont4 .imgs{
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  flex-wrap: wrap;
-}
-.cont4 .imgs img{
-  width: 150px;
-  height: 200px;
-  padding: 20px;
-}
-.cont4 .deco img{
-  width: 250px;
-  height: 70px;
-  padding: 20px;
 
-}
-.cont4 .text h2{
-  font-family: 'Work Sans', sans-serif;
-  font-size: 30px;
-  font-weight: 600;
-  color: black;
-}
-.cont6{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 50px;
-}
-.cont6 h2{
-  font-family: 'Work Sans', sans-serif;
-  margin: 0px;
-}
-.div{
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-}
-.sobre{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-  width: 600px;
-  background-color: #D5EEE8;
-}
-.surgi{
-  padding: 20px;
-  margin: 10px;
-  font-family: 'Work Sans', sans-serif;
-  font-size: 18px;
-  color: #464746;
-  font-weight: 300;
-  background-color: white;
-}
-.nos img{
-  width: 400px;
-  height: 480px;
+/* TABLET */
+@media (min-width: 601px) and (max-width: 900px) {
+  .con1 p {
+    font-size: 30px;
+  }
 
-}
-.cont6 .deco img{
-  width: 200px;
-  height: 50px;
-  padding: 20px;
+  .icon1 img {
+    width: 90px;
+  }
 
-}
-.texto{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  .cont4 .imgs img {
+    width: 130px;
+  }
 }
 </style>

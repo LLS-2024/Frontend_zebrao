@@ -1,133 +1,220 @@
 <template>
-        <header class="header">
-  <div class="logo">
-    <div class="imgLogo">
-      <img src="/src/assets/logo.png" alt="" />
+  <header class="header">
+    <div class="logo">
+      <div class="imgLogo">
+        <img src="/src/assets/logo.png" alt="Logo" />
+      </div>
+      <div class="nome">
+        <p class="p1">Zebrão</p>
+        <p class="p2">Sorvetes</p>
+      </div>
     </div>
-    <div class="nome">
-      <p class="p1">Zebrão</p>
-      <p class="p2">Sorvetes</p>
-    </div>
-  </div>
-  <div class="links">
-    <RouterLink to="/login">Login</RouterLink>
-    <RouterLink to="/">Início</RouterLink>
-    <RouterLink to="/cadastro">Cadastro</RouterLink>
-    <div class="dropdown">
-  <button class="dropbtn">Categorias</button>
-  <div class="dropdown-content">
-  <RouterLink to="/Acai">Açaí</RouterLink>
-  <RouterLink to="/Geladinho">Geladinho</RouterLink>
-  <RouterLink to="/Picole">Picolé</RouterLink>
-  <RouterLink to="/Pote">Pote</RouterLink>
-  </div>
 
-  </div>
-  <div><RouterLink to="/carrinho">Carrinho</RouterLink></div>
-  </div>
-  <div class="pesquisa"></div>
-  <div class="pessoa"></div>
+    <!-- MENU DESKTOP -->
+    <div class="links">
+      <RouterLink to="/login">Login</RouterLink>
+      <RouterLink to="/">Início</RouterLink>
+      <RouterLink to="/cadastro">Cadastro</RouterLink>
+
+      <div class="dropdown">
+        <button class="dropbtn">Categorias</button>
+        <div class="dropdown-content">
+          <RouterLink to="/Acai">Açaí</RouterLink>
+          <RouterLink to="/Geladinho">Geladinho</RouterLink>
+          <RouterLink to="/Picole">Picolé</RouterLink>
+          <RouterLink to="/Pote">Pote</RouterLink>
+        </div>
+      </div>
+
+      <RouterLink to="/carrinho">Carrinho</RouterLink>
+    </div>
+
+    <!-- BOTÃO HAMBÚRGUER -->
+    <div class="hamburguer" @click="menuOpen = !menuOpen">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
   </header>
+
+  <!-- MENU MOBILE -->
+  <div class="menu-mobile" :class="{ show: menuOpen }">
+    <RouterLink @click="closeMenu" to="/login">Login</RouterLink>
+    <RouterLink @click="closeMenu" to="/">Início</RouterLink>
+    <RouterLink @click="closeMenu" to="/cadastro">Cadastro</RouterLink>
+    <RouterLink @click="closeMenu" to="/Acai">Açaí</RouterLink>
+    <RouterLink @click="closeMenu" to="/Geladinho">Geladinho</RouterLink>
+    <RouterLink @click="closeMenu" to="/Picole">Picolé</RouterLink>
+    <RouterLink @click="closeMenu" to="/Pote">Pote</RouterLink>
+    <RouterLink @click="closeMenu" to="/carrinho">Carrinho</RouterLink>
+  </div>
 </template>
+
+<script setup>
+import { ref } from "vue";
+
+const menuOpen = ref(false);
+
+const closeMenu = () => {
+  menuOpen.value = false;
+};
+</script>
+
 <style scoped>
-.header{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-    padding: 10px;
+/* ===== HEADER ===== */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  width: 100%;
+  box-sizing: border-box;
+  background: white;
+  z-index: 10;
+  position: relative;
 }
+
+/* LOGO */
 .logo {
   display: flex;
-  flex-direction: row;
   align-items: center;
+  gap: 10px;
 }
-.p1,
-.p2 {
-  margin: 0px;
+
+.imgLogo img {
+  width: 60px;
+}
+
+.p1, .p2 {
+  margin: 0;
   font-family: 'Work Sans', sans-serif;
+  font-size: 18px;
 }
+
 .p2 {
   color: #2867b2;
 }
-.links{
-    padding: 10px;
+
+/* LINKS (Desktop) */
+.links {
+  display: flex;
+  align-items: center;
+  gap: 20px;
 }
+
 .links a {
-  position: relative;
   text-decoration: none;
   color: black;
-  padding: 10px;
   font-family: 'Work Sans', sans-serif;
+  position: relative;
 }
 
-.links a::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: 0; /* ajusta a distância da linha do texto */
-  width: 0;
-  height: 2px;
-  background: black; /* mesma cor do "Sorvetes" pra combinar */
-  transition: width 0.3s ease;
-}
-
-.links a:hover::after {
-  width: 100%;
-}
-.dropbtn {
-  background-color: white;
-  color: black;
-  padding: 16px;
-  font-size: 16px;
-  border: none;
-  cursor: pointer;
-  font-family: 'Work Sans', sans-serif;
-  position: relative; /* necessário pro ::after */
-}
-
+.links a::after,
 .dropbtn::after {
   content: "";
   position: absolute;
   left: 0;
-  bottom: 4px;
+  bottom: -3px;
   width: 0;
   height: 2px;
   background: black;
-  transition: width 0.3s ease;
+  transition: 0.3s;
 }
 
+.links a:hover::after,
 .dropbtn:hover::after {
   width: 100%;
 }
 
+/* DROPDOWN */
 .dropdown {
   position: relative;
-  display: inline-block;
+}
+
+.dropbtn {
+  background: none;
+  border: none;
+  font-family: 'Work Sans', sans-serif;
+  cursor: pointer;
+  padding: 10px;
 }
 
 .dropdown-content {
   display: none;
   position: absolute;
-  background-color: #f9f9f9;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
+  background: white;
+  min-width: 150px;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+  border-radius: 6px;
+  padding: 8px 0;
+  z-index: 20;
 }
 
 .dropdown-content a {
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
+  padding: 10px 16px;
   display: block;
+  color: black;
 }
-
-.dropdown-content a:hover {background-color: white}
 
 .dropdown:hover .dropdown-content {
   display: block;
 }
 
+/* ===== HAMBURGUER ===== */
+.hamburguer {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+}
 
+.hamburguer span {
+  width: 25px;
+  height: 3px;
+  background: black;
+  border-radius: 4px;
+}
+
+/* ===== MENU MOBILE ===== */
+.menu-mobile {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 70%;
+  height: 100vh;
+  background: white;
+  padding: 30px 20px;
+  box-shadow: -3px 0 10px rgba(0,0,0,0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  transition: 0.4s ease;
+  z-index: 100;
+}
+
+.menu-mobile.show {
+  right: 0;
+}
+
+.menu-mobile a {
+  text-decoration: none;
+  font-family: 'Work Sans', sans-serif;
+  font-size: 20px;
+  color: black;
+}
+
+/* ===== RESPONSIVO ===== */
+@media (max-width: 850px) {
+  .links {
+    display: none;
+  }
+
+  .hamburguer {
+    display: flex;
+  }
+
+  .imgLogo img {
+    width: 50px;
+  }
+}
 </style>
-<script setup></script>

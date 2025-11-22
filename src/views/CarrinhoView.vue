@@ -1,9 +1,9 @@
 <template>
-  <main class="main">
-    <div v-if="carrinho.length > 0" class="itens">
+   <main class="main">
+    <div v-if="itensCarrinho.length > 0" class="itens">
       <div class="pedidos">
         <div
-          v-for="(item, index) in carrinho"
+          v-for="(item, index) in itensCarrinho"
           :key="index"
           class="item-carrinho"
         >
@@ -13,8 +13,8 @@
             </div>
             <div class="detalhes">
               <h3>{{ item.nome }}</h3>
-              <p>Preço: R$ {{ item.preco.toFixed(2) }}</p>
-              <p>Total: R$ {{ (item.preco * item.quantidade).toFixed(2) }}</p>
+              <p>Preço: R$ {{ item.preco }}</p>
+              <p>Total: R$ {{ (item.preco * item.quantidade) }}</p>
             </div>
           </div>
           <div class="total">
@@ -26,7 +26,7 @@
       <div class="resumo">
         <div class="divPreco">
           <p>Total</p>
-          <p>R$ {{ totalCarrinho.toFixed(2) }}</p>
+          <p>R$ {{ totalCarrinho }}</p>
         </div>
         <button @click="finalizarCompra">FINALIZAR</button>
       </div>
@@ -40,37 +40,35 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, onBeforeMount } from 'vue'
+import axios from "axios"
 
-const carrinho = ref([])
+const carrinho = ref(null)
+const user = ref(null)
+const itensCarrinho = ref([])
+const totalCarrinho = ref(null)
 
-const totalCarrinho = computed(() =>
-  carrinho.value.reduce((total, item) => total + item.preco * item.quantidade, 0)
-)
-
-function voltar() {
-  window.location.href = 'index.html'
-}
-
-function removerItem(index) {
-  carrinho.value.splice(index, 1)
-  salvarCarrinho()
-}
-
-function finalizarCompra() {
-  alert('Compra finalizada!')
-  carrinho.value = []
-  salvarCarrinho()
-}
-
-function salvarCarrinho() {
-  localStorage.setItem('carrinho', JSON.stringify(carrinho.value))
-}
-
-onMounted(() => {
-  const carrinhoSalvo = JSON.parse(localStorage.getItem('carrinho')) || []
-  carrinho.value = carrinhoSalvo
+onBeforeMount(async () => {
+  try {
+    const resUser = await axios.get('http://localhost:8000/api/users/me/', {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("psg_auth_token")}`
+      }
+    })
+    const ResCarrinho = await axios.get('http://localhost:8000/api/carrinhos/?usuario_id=' + resUser.data.id)
+    carrinho.value = ResCarrinho.data.results[0]
+    const resItens = await axios.get('http://localhost:8000/api/itens-carrinho/?carrinho_id=' + carrinho.value.id )
+    itensCarrinho.value = resItens.data.results
+    totalCarrinho.value = carrinho.value.total
+    user.value = resUser.data
+    console.log(carrinho.value)
+    console.log(itensCarrinho)
+    console.log(`token: ${localStorage.getItem("psg_auth_token")}`)
+  } catch (err) {
+    console.error("Erro ao carregar produto:", err)
+  }
 })
+
 </script>
 
 <style scoped>

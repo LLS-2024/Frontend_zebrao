@@ -55,79 +55,34 @@ function verProduto(id) {
   </div>
 </template>
 <style scoped>
-.produtos {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-.produto {
-  width: 150px;
-  height: auto;
-  background-color: white;
-  margin: 10px 10px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: left;
-  padding: 10px;
 
-  & .nome {
-    font-family: 'Work Sans', sans-serif;
-    font-weight: 600;
-    font-style: normal;
-    font-size: 15px;
-    line-height: 100%;
-    letter-spacing: 0%;
-  }
-
-  & .preco {
-    color: #888;
-  }
-}
-.slot {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-.slot img {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  object-fit: cover;
-}
+/* ----------- LAYOUT GERAL ----------- */
 .sorvete-home {
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap;
-  justify-content: center;
+  align-items: center;
   background-color: #fff0f4;
-  padding: 50px;
-}
-.sorvt {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
+  padding: 30px 20px; /* reduzido pra mobile */
+  width: 100%;
+  box-sizing: border-box;
 }
 
+/* ----------- TÍTULO ----------- */
 .txt {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-.txt h2 {
-  font-family: 'Work Sans', sans-serif;
+  text-align: center;
 }
 .txt .deco img {
-  width: 250px;
-  height: 70px;
-  padding: 20px;
+  width: 200px;
+  height: auto;
+  padding: 10px;
 }
+
+/* ----------- BOTÕES ----------- */
 .buttons {
   display: flex;
-  flex-direction: row;
+  flex-wrap: wrap;   /* AGORA QUEBRA NO MOBILE */
   justify-content: center;
+  gap: 10px;
 }
 .buttons button {
   background-color: white;
@@ -135,7 +90,6 @@ function verProduto(id) {
   border: none;
   border-radius: 20px;
   padding: 10px 20px;
-  margin: 0px 5px 5px 5px;
   font-family: 'Work Sans', sans-serif;
   cursor: pointer;
 }
@@ -144,4 +98,90 @@ function verProduto(id) {
   color: white;
   transition: 0.5s;
 }
+
+/* ----------- PRODUTOS ----------- */
+.produtos {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+  gap: 15px;
+}
+
+/* CARD DO PRODUTO */
+.produto {
+  width: 150px;    /* valor será alterado no mobile */
+  background-color: white;
+  padding: 10px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.slot img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.nome {
+  font-family: 'Work Sans', sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+}
+.preco {
+  color: #888;
+}
+
+/* ----------- RESPONSIVIDADE ----------- */
+
+/* 📱 CELULAR PEQUENO */
+@media (max-width: 480px) {
+
+  .sorvete-home {
+    padding: 20px 10px;
+  }
+
+  .txt .deco img {
+    width: 150px;
+  }
+
+  .produto {
+    width: 45%;           /* 2 por linha */
+  }
+
+  .slot img {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+/* 📱 CELULAR GRANDE / TABLET VERTICAL */
+@media (min-width: 481px) and (max-width: 768px) {
+
+  .produto {
+    width: 30%;       /* 3 por linha */
+  }
+
+  .txt .deco img {
+    width: 200px;
+  }
+}
+
+/* 💻 TABLET HORIZONTAL / NOTEBOOK */
+@media (min-width: 769px) and (max-width: 1024px) {
+
+  .produto {
+    width: 22%;       /* 4 por linha */
+  }
+}
+
 </style>
+

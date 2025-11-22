@@ -13,7 +13,6 @@ const cpf = ref('')
 const erro = ref('')
 
 const cadastrar = async () => {
-  // event.preventDefault()
   erro.value = ''
 
   if (!nome.value || !email.value || !senha.value || !confirmarSenha.value || !dataNascimento.value || !cep.value || !cpf.value) {
@@ -78,12 +77,12 @@ const cadastrar = async () => {
 
       <p class="termos">
         As pessoas que usam nosso serviço podem ter carregado suas informações de contato no Medium. Saiba mais.<br><br>
-        Ao clicar em Cadastre-se, você concorda com nossos Termos, Política de Privacidade e Política de Cookies. Você poderá receber notificações por SMS e cancelar isso quando quiser.
+        Ao clicar em Cadastre-se, você concorda com nossos Termos, Política de Privacidade e Política de Cookies.
       </p>
 
       <button type="submit">Cadastre-se</button>
 
-      <p v-if="erro" style="color: red; text-align: center; margin-top: 10px;">{{ erro }}</p>
+      <p v-if="erro" class="erro">{{ erro }}</p>
     </form>
   </div>
 </template>
@@ -96,34 +95,79 @@ const cadastrar = async () => {
   padding: 2rem;
   border: 1px solid #92caff;
   border-radius: 10px;
+  width: 90%;
+  box-sizing: border-box;
 }
+
 .form-group {
   margin-bottom: 1rem;
 }
+
 label {
   display: block;
   margin-bottom: 0.25rem;
   color: white;
 }
+
 input {
   width: 100%;
-  padding: 0.5rem;
+  padding: 0.7rem;
+  border-radius: 6px;
+  border: none;
+  font-size: 1rem;
 }
+
 button {
   display: block;
   margin: 1rem auto 0 auto;
-  padding: 0.5rem 1rem;
+  padding: 0.7rem 1.5rem;
   background-color: #44626D;
   color: white;
   border: none;
+  border-radius: 6px;
   cursor: pointer;
+  font-size: 1rem;
 }
+
 h1 {
   text-align: center;
   color: white;
   font-family: 'Work Sans', sans-serif;
 }
-p{
+
+p {
   font-family: 'Work Sans', sans-serif;
+}
+
+.erro {
+  color: red;
+  text-align: center;
+  margin-top: 10px;
+}
+
+/* 🔥 RESPONSIVIDADE */
+@media (max-width: 480px) {
+  .cadastro-container {
+    padding: 1.2rem;
+    margin-top: 1rem;
+  }
+
+  h1 {
+    font-size: 1.3rem;
+  }
+
+  input {
+    font-size: 0.9rem;
+    padding: 0.6rem;
+  }
+
+  button {
+    font-size: 0.9rem;
+    padding: 0.6rem 1.2rem;
+  }
+
+  .termos {
+    font-size: 0.85rem;
+  }
 }
 </style>
