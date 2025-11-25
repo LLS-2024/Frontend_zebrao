@@ -8,6 +8,8 @@ import Geladinho from '@/views/GeladinhoView.vue'
 import Pote from '@/views/PoteView.vue'
 import Vizualizar from '@/views/VizualizarView.vue'
 import CarrinhoView from '@/views/CarrinhoView.vue'
+import CompraPagoView from '@/views/CompraPagoView.vue'
+import ComprasPagasList from '@/views/ComprasPagasList.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -61,6 +63,16 @@ const router = createRouter({
     path: '/carrinho',
     name: 'carrinho',
     component: CarrinhoView
+  },
+  {
+    path: '/compras/:id',
+    name: 'compra-detalhes',
+    component: CompraPagoView
+  },
+  {
+    path: '/compras-pagas',
+    name: 'compras-pagas',
+    component: ComprasPagasList
   },
   ],
 })

@@ -27,6 +27,7 @@
       </div>
 
       <RouterLink to="/carrinho">Carrinho</RouterLink>
+      <RouterLink to="/compras-pagas">Compras (Pagas)</RouterLink>
     </div>
 
     <!-- BOTÃO HAMBÚRGUER -->
@@ -47,6 +48,7 @@
     <RouterLink @click="closeMenu" to="/Picole">Picolé</RouterLink>
     <RouterLink @click="closeMenu" to="/Pote">Pote</RouterLink>
     <RouterLink @click="closeMenu" to="/carrinho">Carrinho</RouterLink>
+    <RouterLink @click="closeMenu" to="/compras-pagas">Compras (Pagas)</RouterLink>
   </div>
 </template>
 

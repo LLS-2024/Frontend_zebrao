@@ -41,12 +41,16 @@
 
 <script setup>
 import { ref, onBeforeMount } from 'vue'
+import { useRouter } from 'vue-router'
 import axios from "axios"
 
-const carrinho = ref(null)
+const router = useRouter()
+const compra = ref(null)
 const user = ref(null)
 const itensCarrinho = ref([])
-const totalCarrinho = ref(null)
+const totalCarrinho = ref(0)
+
+const STATUS_CARRINHO = 1
 
 onBeforeMount(async () => {
   try {
@@ -55,19 +59,128 @@ onBeforeMount(async () => {
         Authorization: `Bearer ${localStorage.getItem("psg_auth_token")}`
       }
     })
-    const ResCarrinho = await axios.get('http://localhost:8000/api/carrinhos/?usuario_id=' + resUser.data.id)
-    carrinho.value = ResCarrinho.data.results[0]
-    const resItens = await axios.get('http://localhost:8000/api/itens-carrinho/?carrinho_id=' + carrinho.value.id )
-    itensCarrinho.value = resItens.data.results
-    totalCarrinho.value = carrinho.value.total
+
+    // Busca compras com status CARRINHO do usuário
+    const resCompras = await axios.get(`http://localhost:8000/api/compras/?usuario_id=${resUser.data.id}&status=${STATUS_CARRINHO}`)
     user.value = resUser.data
-    console.log(carrinho.value)
-    console.log(itensCarrinho)
-    console.log(`token: ${localStorage.getItem("psg_auth_token")}`)
+
+    if (resCompras.data.results && resCompras.data.results.length > 0) {
+      compra.value = resCompras.data.results[0]
+    } else {
+      compra.value = null
+    }
+
+    // Mapeia itens para a estrutura usada na view
+    if (compra.value && compra.value.itens) {
+      itensCarrinho.value = compra.value.itens.map(it => {
+        const produto = it.produto || {}
+        const imagem = produto.imagem && produto.imagem.url ? produto.imagem.url : (typeof produto.imagem === 'number' ? null : produto.imagem)
+        return {
+          id: it.id,
+          produto_id: typeof produto.id !== 'undefined' ? produto.id : produto,
+          nome: produto.nome || '',
+          descricao: produto.descricao || '',
+          preco: parseFloat(produto.preco) || 0,
+          imagem: imagem,
+          quantidade: it.quantidade || 0,
+          total: it.total || (parseFloat(produto.preco || 0) * (it.quantidade || 0))
+        }
+      })
+      totalCarrinho.value = compra.value.total || itensCarrinho.value.reduce((s, i) => s + (i.preco * i.quantidade), 0)
+    } else {
+      itensCarrinho.value = []
+      totalCarrinho.value = 0
+    }
+
+    console.log('compra', compra.value)
+    console.log('itens', itensCarrinho.value)
   } catch (err) {
-    console.error("Erro ao carregar produto:", err)
+    console.error("Erro ao carregar carrinho:", err)
   }
 })
+
+async function removerItem(index) {
+  const item = itensCarrinho.value[index]
+  if (!compra.value) return
+  try {
+    // monta itens atualizados sem o removido
+    const itensAtualizados = (compra.value.itens || []).filter(it => {
+      const itPid = typeof it.produto === 'object' ? it.produto.id : it.produto
+      return itPid !== item.produto_id
+    }).map(it => ({ produto: typeof it.produto === 'object' ? it.produto.id : it.produto, quantidade: it.quantidade }))
+
+    const res = await axios.patch(`http://localhost:8000/api/compras/${compra.value.id}/`, { itens: itensAtualizados }, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('psg_auth_token')}` }
+    })
+
+    // atualiza estado local
+    if (res.data && res.data.itens) {
+      compra.value.itens = res.data.itens
+      itensCarrinho.value = res.data.itens.map(it => {
+        const produto = it.produto || {}
+        const imagem = produto.imagem && produto.imagem.url ? produto.imagem.url : (typeof produto.imagem === 'number' ? null : produto.imagem)
+        return {
+          id: it.id,
+          produto_id: typeof produto.id !== 'undefined' ? produto.id : produto,
+          nome: produto.nome || '',
+          descricao: produto.descricao || '',
+          preco: parseFloat(produto.preco) || 0,
+          imagem: imagem,
+          quantidade: it.quantidade || 0,
+          total: it.total || (parseFloat(produto.preco || 0) * (it.quantidade || 0))
+        }
+      })
+      totalCarrinho.value = res.data.total || itensCarrinho.value.reduce((s, i) => s + (i.preco * i.quantidade), 0)
+    } else {
+      // fallback local
+      itensCarrinho.value.splice(index, 1)
+      totalCarrinho.value = itensCarrinho.value.reduce((s, i) => s + (i.preco * i.quantidade), 0)
+    }
+  } catch (err) {
+    console.error('Erro ao remover item:', err)
+    alert('Erro ao remover item do carrinho.')
+  }
+}
+
+async function finalizarCompra() {
+  if (!compra.value) {
+    alert('Nenhuma compra para finalizar.')
+    return
+  }
+  try {
+    // Atualiza status usando PATCH (poderia ser PUT se preferir)
+    const method = 'patch' // ou 'put'
+    const url = `http://localhost:8000/api/compras/${compra.value.id}/`
+    const payload = { status: 3 }
+    const res = await axios[method](url, payload, { headers: { Authorization: `Bearer ${localStorage.getItem('psg_auth_token')}` } })
+
+    if (res.status >= 200 && res.status < 300) {
+      // atualiza estado local com a resposta (se disponível)
+      if (res.data) {
+        compra.value = res.data
+      } else {
+        compra.value.status = 'Pago'
+      }
+      alert('Compra paga com sucesso! Redirecionando para o registro da compra.')
+      // garante que existe um id válido para a rota
+      const compraId = (res && res.data && res.data.id) || (compra.value && compra.value.id)
+      if (compraId) {
+        router.push({ name: 'compra-detalhes', params: { id: compraId } })
+      } else {
+        // fallback: volta para home se não houver id
+        console.warn('ID da compra não disponível para redirecionamento, retornando à home.')
+        router.push('/')
+      }
+    }
+  } catch (err) {
+    console.error('Erro ao finalizar compra:', err)
+    alert('Não foi possível finalizar a compra via API. Verifique backend.')
+  }
+}
+
+function voltar() {
+  router.back()
+}
 
 </script>
 

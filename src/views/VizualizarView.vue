@@ -6,8 +6,10 @@ import axios from "axios"
 const route = useRoute()
 const produto = ref(null)
 const quantidade = ref(1)
-const carrinho = ref(null)
+const compra = ref(null)
 const user = ref(null)
+
+const STATUS_CARRINHO = 1
 
 onMounted(async () => {
   try {
@@ -16,57 +18,128 @@ onMounted(async () => {
         Authorization: `Bearer ${localStorage.getItem("psg_auth_token")}`
       }
     })
-    const ResCarrinho = await axios.get('http://localhost:8000/api/carrinhos/?usuario_id=' + resUser.data.id)
+    const resCompras = await axios.get(`http://localhost:8000/api/compras/?usuario_id=${resUser.data.id}&status=${STATUS_CARRINHO}`)
     const resProduto = await axios.get(`http://localhost:8000/api/produtos/${route.params.id}/`)
+    
     produto.value = resProduto.data
-    carrinho.value = ResCarrinho.data.results[0]
     user.value = resUser.data
-    console.log(carrinho.value)
-    console.log("usuário" + user.value)
-    console.log(`token: ${localStorage.getItem("psg_auth_token")}`)
+    
+    // Se existe uma compra com status CARRINHO, usa ela. Caso contrário, cria uma nova
+    if (resCompras.data.results.length > 0) {
+      compra.value = resCompras.data.results[0]
+    } else {
+      // Cria uma nova compra com status CARRINHO
+      const resNovaCompra = await axios.post('http://localhost:8000/api/compras/', {
+        usuario: resUser.data.id,
+        itens: []
+      }, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("psg_auth_token")}`
+        }
+      })
+      compra.value = resNovaCompra.data
+      compra.value.itens = []
+    }
+    
+    console.log(compra.value)
+    console.log("usuário: " + user.value)
+    console.log(`token: ${localStorage.getItem("psg_auth_token")}, usuriário ID: ${resUser.data.id}`)
   } catch (err) {
     console.error("Erro ao carregar produto:", err)
   }
 })
 
 async function adicionarAoCarrinho() {
-  if (!carrinho.value) {
-    alert("Carrinho não encontrado para o usuário.")
+  if (!compra.value) {
+    alert("Compra não encontrada para o usuário.")
     return
   }
-  const itemExistente = carrinho.value.itens.find(item => item.produto === produto.value.id)
+  
+  const itemExistente = (compra.value.itens || []).find(item => {
+    const pid = typeof item.produto === 'object' ? item.produto.id : item.produto
+    return pid === produto.value.id
+  })
 
   console.log(itemExistente)
 
   if (itemExistente) {
-
+    // Atualiza quantidade no payload e faz PATCH na compra com a lista completa de itens
     try {
-      const resUpdate = await axios.patch(`http://localhost:8000/api/itens-carrinho/${itemExistente.id}/`, {
-        quantidade: itemExistente.quantidade + quantidade.value
+      // Monta lista atualizada de itens para enviar no serializer de Compra
+      const itensAtualizados = (compra.value.itens || []).map(it => {
+        const itPid = typeof it.produto === 'object' ? it.produto.id : it.produto
+        if (itPid === produto.value.id) {
+          return { produto: produto.value.id, quantidade: it.quantidade + quantidade.value }
+        }
+        return { produto: itPid, quantidade: it.quantidade }
       })
-      itemExistente.quantidade += quantidade.value
+
+      await axios.patch(`http://localhost:8000/api/compras/${compra.value.id}/`, {
+        itens: itensAtualizados
+      }, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("psg_auth_token")}`
+        }
+      })
+
+      // Atualiza estado local (soma na entrada existente se achar)
+      const itemLocal = (compra.value.itens || []).find(i => {
+        const itPid = typeof i.produto === 'object' ? i.produto.id : i.produto
+        return itPid === produto.value.id
+      })
+      if (itemLocal) itemLocal.quantidade += quantidade.value
     } catch (err) {
-      console.error("Erro ao atualizar item no carrinho:", err)
-      alert("Erro ao atualizar item no carrinho.")
+      console.error("Erro ao atualizar item na compra:", err)
+      alert("Erro ao atualizar item na compra.")
       return
     }
-
-
   } else {
-
     try {
-      const resAdd = await axios.post('http://localhost:8000/api/itens-carrinho/', {
-        carrinho: carrinho.value.id,
-        produto: produto.value.id,
-        quantidade: quantidade.value
+      // Cria payload de itens baseado nos itens atuais + novo item
+      const itensAtualizados = (compra.value.itens || []).map(it => ({
+        produto: typeof it.produto === 'object' ? it.produto.id : it.produto,
+        quantidade: it.quantidade
+      }))
+      const existingIndex = itensAtualizados.findIndex(i => i.produto === produto.value.id)
+      if (existingIndex > -1) {
+        itensAtualizados[existingIndex].quantidade += quantidade.value
+      } else {
+        itensAtualizados.push({ produto: produto.value.id, quantidade: quantidade.value })
+      }
+
+      const res = await axios.patch(`http://localhost:8000/api/compras/${compra.value.id}/`, {
+        itens: itensAtualizados
+      }, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("psg_auth_token")}`
+        }
       })
-      carrinho.value.itens.push(resAdd.data)
+
+      // Atualiza estado local com resposta da compra (se a API retornar a compra atualizada)
+      if (res.data && res.data.itens) {
+        compra.value.itens = res.data.itens
+      } else {
+        if (!compra.value.itens) compra.value.itens = []
+        // Se já existe um item com esse produto, soma a quantidade localmente
+        const local = compra.value.itens.find(i => {
+          const itPid = typeof i.produto === 'object' ? i.produto.id : i.produto
+          return itPid === produto.value.id
+        })
+        if (local) {
+          local.quantidade += quantidade.value
+        } else {
+          compra.value.itens.push({ produto: produto.value.id, quantidade: quantidade.value })
+        }
+      }
     } catch (err) {
-      console.error("Erro ao adicionar item ao carrinho:", err)
-      alert("Erro ao adicionar item ao carrinho.")
+      console.error("Erro ao adicionar item na compra:", err)
+      // mostra mensagens de erro detalhadas se houver
+      if (err.response && err.response.data) {
+        console.error(err.response.data)
+      }
+      alert("Erro ao adicionar item na compra.")
       return
     }
-
   }
 
   alert(`${produto.value.nome} adicionado ao carrinho!`)

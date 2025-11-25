@@ -30,7 +30,7 @@ const cadastrar = async () => {
     return
   }
 
-  await axios.post('http://localhost:19003/api/users/', {
+  await axios.post('http://localhost:8000/api/users/', {
     name: nome.value,
     email: email.value,
     password: senha.value,
