@@ -14,7 +14,6 @@
     <div class="links">
       <RouterLink to="/login">Login</RouterLink>
       <RouterLink to="/">Início</RouterLink>
-      <RouterLink to="/cadastro">Cadastro</RouterLink>
 
       <div class="dropdown">
         <button class="dropbtn">Categorias</button>

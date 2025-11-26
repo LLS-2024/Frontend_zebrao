@@ -11,7 +11,7 @@ const itens = ref([])
 onMounted(async () => {
   const id = route.params.id
   try {
-    const res = await axios.get(`http://localhost:8000/api/compras/${id}/`, {
+    const res = await axios.get(`https://backend-zebrao.onrender.com/api/compras/${id}/`, {
       headers: { Authorization: `Bearer ${localStorage.getItem('psg_auth_token')}` }
     })
     compra.value = res.data
@@ -36,7 +36,7 @@ async function confirmarEntrega() {
   if (!compra.value) return
   try {
     const method = 'patch' // ou 'put'
-    const url = `http://localhost:8000/api/compras/${compra.value.id}/`
+    const url = `https://backend-zebrao.onrender.com/api/compras/${compra.value.id}/`
     const payload = { status: 4 }
     const res = await axios[method](url, payload, { headers: { Authorization: `Bearer ${localStorage.getItem('psg_auth_token')}` } })
     if (res.status >= 200 && res.status < 300) {
@@ -91,13 +91,129 @@ function voltar() {
 </template>
 
 <style scoped>
-.main { padding: 20px; }
-.detalhes-compra { max-width: 800px; margin: 0 auto; background: #fff; padding: 20px; border-radius: 8px; }
-.itens { margin-top: 16px; }
-.item { display: flex; gap: 12px; align-items: center; padding: 8px 0; border-bottom: 1px solid #eee; }
-.item img { width: 80px; height: 80px; object-fit: cover; border-radius: 6px; }
-.acoes { margin-top: 16px; display: flex; gap: 8px; }
-button { padding: 10px 12px; border-radius: 6px; border: none; cursor: pointer; }
-button:first-of-type { background: #4caf50; color: white; }
-button:last-of-type { background: #ccc; }
+.main {
+  padding: 32px;
+  font-family: "Poppins", sans-serif;
+  background: #f6f8fa;
+  min-height: 100vh;
+}
+
+/* Container */
+.detalhes-compra {
+  max-width: 850px;
+  margin: 0 auto;
+  background: #ffffff;
+  padding: 28px;
+  border-radius: 18px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e5e7eb;
+}
+
+/* Título */
+h2 {
+  font-size: 28px;
+  font-weight: 600;
+  color: #222;
+  margin-bottom: 16px;
+}
+
+/* Infos gerais */
+.detalhes-compra p {
+  font-size: 16px;
+  margin: 6px 0;
+  color: #444;
+}
+
+.detalhes-compra strong {
+  color: #111;
+}
+
+/* Lista de itens */
+.itens {
+  margin-top: 24px;
+  border-top: 1px solid #e5e7eb;
+  padding-top: 16px;
+}
+
+.item {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  padding: 14px 0;
+  border-bottom: 1px solid #f0f0f0;
+  transition: background 0.2s ease;
+}
+
+.item:hover {
+  background: #fafafa;
+  border-radius: 10px;
+  padding-left: 10px;
+}
+
+.item img {
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+}
+
+/* Texto do item */
+.item h4 {
+  font-size: 17px;
+  margin-bottom: 4px;
+  font-weight: 600;
+  color: #222;
+}
+
+.item p {
+  font-size: 14px;
+  color: #555;
+  margin: 2px 0;
+}
+
+/* Botões */
+.acoes {
+  margin-top: 28px;
+  display: flex;
+  gap: 12px;
+}
+
+button {
+  padding: 12px 18px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 15px;
+  transition: 0.2s ease;
+}
+
+/* Botão verde */
+button:first-of-type {
+  background: linear-gradient(135deg, #0ba360, #3cba92);
+  color: white;
+}
+
+button:first-of-type:hover {
+  opacity: 0.9;
+  transform: scale(1.03);
+}
+
+/* Botão cinza */
+button:last-of-type {
+  background: #d1d5db;
+}
+
+button:last-of-type:hover {
+  background: #c4c7cc;
+  transform: scale(1.03);
+}
+
+/* Estado: carregando */
+.main p {
+  font-size: 16px;
+  color: #555;
+  text-align: center;
+}
 </style>

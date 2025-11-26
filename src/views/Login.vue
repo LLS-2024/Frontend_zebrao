@@ -3,25 +3,21 @@
 import '@passageidentity/passage-elements/passage-auth';
 
 const APP_ID = import.meta.env.VITE_PASSAGE_APP_ID;
+
+// import FormLoginCompo from '@/components/FormLoginCompo.vue';
 </script>
 
 <template>
   <main class="main">
     <div class="container">
       <div class="login">
-        <div class="inicio">
-          <h1>Zebrão</h1>
-          <p>A melhor experiencia</p>
-        </div>
-
-        <div class="authContainer">
-          <passage-auth :app-id="APP_ID"></passage-auth>
-        </div>
+      <div class="inicio"><h1>Zebrão</h1>
+      <p>A melhor experiencia</p></div>
+      <div class="authContainer">
+        <passage-auth :app-id="APP_ID"></passage-auth>
       </div>
-
-      <div class="imgBox">
-        <img src="/login/image.png" alt="Imagem nítida" />
       </div>
+      <div><img src="/login/image.png" alt="Imagem nítida" /></div>
     </div>
   </main>
 </template>
@@ -29,22 +25,24 @@ const APP_ID = import.meta.env.VITE_PASSAGE_APP_ID;
 <style scoped>
 .main {
   position: relative;
+  display: flex;
+  gap: 1rem;
   width: 100%;
   height: 100vh;
   overflow: hidden;
-
-  display: flex;
   justify-content: center;
   align-items: center;
-
+  flex-wrap: wrap;
   font-family: "Poppins", sans-serif;
-  padding: 20px;
 }
 
 .main::before {
   content: '';
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   background-image: url('/login/fundo.png');
   background-size: cover;
   background-position: center;
@@ -54,77 +52,45 @@ const APP_ID = import.meta.env.VITE_PASSAGE_APP_ID;
 
 .main > * {
   position: relative;
-  z-index: 1;
 }
+.container{
+    display: flex;
+    flex-direction: row;
+    margin: 60px;
 
-.container {
-  display: flex;
-  gap: 40px;
-  align-items: center;
 
-  /* Responsivo */
-  flex-wrap: wrap;
-  justify-content: center;
 }
+.inicio h1{
 
-.login {
-  background-color: white;
-  padding: 40px;
-  border-radius: 10px;
-  max-width: 380px;
-  width: 100%;
-  box-shadow: 0px 8px 20px rgba(0,0,0,0.1);
-}
-
-.inicio h1 {
-  font-size: 48px;
+  font-size: 64px;
   font-weight: bold;
-  margin: 0;
   background: linear-gradient(to right, #4299e1, #1a365d);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  margin: 0px;
 }
-
-.inicio p {
-  color: #555;
-  margin: 0;
-  font-size: 14px;
+.inicio p{
+    color: #555555;
+    margin: 0px;
+    font-size: 13px;
 }
-
-.authContainer {
-  margin-top: 20px;
+.login{
+    background-color: white;
+    padding: 50px;
+    border-radius: 10px;
 }
-
-.imgBox img {
-  width: 450px;
-  max-width: 100%;
-  border-radius: 12px;
-  object-fit: cover;
+.inicio {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    margin: 0px;
+    font-family: "Poppins", sans-serif;
 }
-
-/* 📱 Mobile */
-@media (max-width: 900px) {
-  .imgBox {
-    display: none;
-  }
-
-  .login {
-    max-width: 90%;
-  }
-
-  .inicio h1 {
-    font-size: 38px;
-  }
+.login img{
+    border-radius: 10px;
 }
-
-/* 📱 Pequenos */
-@media (max-width: 500px) {
-  .login {
-    padding: 30px;
-  }
-
-  .inicio h1 {
-    font-size: 32px;
-  }
+.dados h3{
+    color: #4A90E2;
 }
 </style>

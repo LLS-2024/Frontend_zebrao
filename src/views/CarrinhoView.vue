@@ -1,5 +1,5 @@
 <template>
-   <main class="main">
+  <main class="main">
     <div v-if="itensCarrinho.length > 0" class="itens">
       <div class="pedidos">
         <div
@@ -54,14 +54,14 @@ const STATUS_CARRINHO = 1
 
 onBeforeMount(async () => {
   try {
-    const resUser = await axios.get('http://localhost:8000/api/users/me/', {
+    const resUser = await axios.get('https://backend-zebrao.onrender.com/api/users/me/', {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("psg_auth_token")}`
       }
     })
 
     // Busca compras com status CARRINHO do usuário
-    const resCompras = await axios.get(`http://localhost:8000/api/compras/?usuario_id=${resUser.data.id}&status=${STATUS_CARRINHO}`)
+    const resCompras = await axios.get(`https://backend-zebrao.onrender.com/api/compras/?usuario_id=${resUser.data.id}&status=${STATUS_CARRINHO}`)
     user.value = resUser.data
 
     if (resCompras.data.results && resCompras.data.results.length > 0) {
@@ -109,7 +109,7 @@ async function removerItem(index) {
       return itPid !== item.produto_id
     }).map(it => ({ produto: typeof it.produto === 'object' ? it.produto.id : it.produto, quantidade: it.quantidade }))
 
-    const res = await axios.patch(`http://localhost:8000/api/compras/${compra.value.id}/`, { itens: itensAtualizados }, {
+    const res = await axios.patch(`https://backend-zebrao.onrender.com/api/compras/${compra.value.id}/`, { itens: itensAtualizados }, {
       headers: { Authorization: `Bearer ${localStorage.getItem('psg_auth_token')}` }
     })
 
@@ -142,40 +142,33 @@ async function removerItem(index) {
   }
 }
 
+/**
+ * Redireciona o usuário para a área de pagamento, passando os dados da compra.
+ * (Substitui a lógica de PATCH/PUT de status para PAGO).
+ */
 async function finalizarCompra() {
-  if (!compra.value) {
-    alert('Nenhuma compra para finalizar.')
-    return
+  if (!compra.value || !compra.value.id) {
+    alert('Nenhuma compra para finalizar.');
+    return;
   }
-  try {
-    // Atualiza status usando PATCH (poderia ser PUT se preferir)
-    const method = 'patch' // ou 'put'
-    const url = `http://localhost:8000/api/compras/${compra.value.id}/`
-    const payload = { status: 3 }
-    const res = await axios[method](url, payload, { headers: { Authorization: `Bearer ${localStorage.getItem('psg_auth_token')}` } })
+  
+  const compraId = compra.value.id;
+  // Garante que o total seja enviado como string formatada para dois decimais
+  const valorTotal = totalCarrinho.value.toFixed(2); 
 
-    if (res.status >= 200 && res.status < 300) {
-      // atualiza estado local com a resposta (se disponível)
-      if (res.data) {
-        compra.value = res.data
-      } else {
-        compra.value.status = 'Pago'
-      }
-      alert('Compra paga com sucesso! Redirecionando para o registro da compra.')
-      // garante que existe um id válido para a rota
-      const compraId = (res && res.data && res.data.id) || (compra.value && compra.value.id)
-      if (compraId) {
-        router.push({ name: 'compra-detalhes', params: { id: compraId } })
-      } else {
-        // fallback: volta para home se não houver id
-        console.warn('ID da compra não disponível para redirecionamento, retornando à home.')
-        router.push('/')
-      }
-    }
-  } catch (err) {
-    console.error('Erro ao finalizar compra:', err)
-    alert('Não foi possível finalizar a compra via API. Verifique backend.')
-  }
+  console.log(`Redirecionando compra ID: ${compraId} (Total: R$ ${valorTotal}) para a área de pagamento.`);
+  
+  // 🎯 Ação Principal: Navegar para a Área de Pagamento
+  router.push({ 
+    name: 'area de pagamento', // 💡 Use o nome exato da sua rota de pagamento
+    query: { 
+      compraId: compraId, 
+      total: valorTotal 
+    } 
+  });
+  
+  // A lógica para mudar o status para FINALIZADO (2) ou PAGO (3) 
+  // será tratada na página de pagamento ou pelo backend após a transação.
 }
 
 function voltar() {
@@ -185,6 +178,7 @@ function voltar() {
 </script>
 
 <style scoped>
+/* O CSS não foi alterado, apenas a função JavaScript */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -221,6 +215,13 @@ html, body {
   box-shadow: 0 0 4px rgba(0,0,0,0.1);
   padding: 12px;
   width: 100%;
+  margin-bottom: 12px; /* Adicionado um pequeno espaçamento para melhor visualização */
+}
+
+.pedidos {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .product {
@@ -271,6 +272,7 @@ html, body {
   border: 1px solid black;
   border-radius: 8px;
   padding: 16px;
+  margin-top: 20px;
 }
 
 .divPreco {
@@ -298,6 +300,7 @@ html, body {
 
 .vazio {
   text-align: center;
+  margin-top: 50px;
 }
 
 .vazio button {
@@ -309,5 +312,56 @@ html, body {
   border-radius: 6px;
   font-size: 16px;
   cursor: pointer;
+}
+
+/* RESPONSIVIDADE (Ajustes para mobile/tablet) */
+@media (min-width: 768px) {
+  .main {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 24px;
+  }
+  
+  .itens {
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 20px;
+  }
+
+  .pedidos {
+    flex: 2; /* Ocupa mais espaço para a lista de itens */
+  }
+
+  .resumo {
+    flex: 1; /* Ocupa menos espaço para o resumo */
+    max-width: 300px;
+    align-self: flex-start;
+  }
+
+  .item-carrinho {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .product {
+    flex-wrap: nowrap;
+  }
+
+  .total {
+    margin-top: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .img img {
+    width: 60px;
+  }
+  .detalhes h3 {
+    font-size: 16px;
+  }
+  .detalhes p {
+    font-size: 12px;
+  }
 }
 </style>

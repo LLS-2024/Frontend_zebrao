@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import Cadastro from '../views/Cadastro.vue'
 import Login from '@/views/Login.vue'
 import Acai from '@/views/AcaiView.vue'
 import Picole from '@/views/PicoleView.vue'
@@ -10,6 +9,8 @@ import Vizualizar from '@/views/VizualizarView.vue'
 import CarrinhoView from '@/views/CarrinhoView.vue'
 import CompraPagoView from '@/views/CompraPagoView.vue'
 import ComprasPagasList from '@/views/ComprasPagasList.vue'
+import AreaPagamentoView from '@/views/AreaPagamentoView.vue'
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -20,11 +21,7 @@ const router = createRouter({
       component: HomeView,
       meta: { footerColor: "#A2C7FF" }
     },
-    {
-      path: '/cadastro',
-      name: 'cadastro',
-      component: Cadastro,
-    },
+
     {
     path: '/Login',
     name: 'Login',
@@ -74,6 +71,12 @@ const router = createRouter({
     name: 'compras-pagas',
     component: ComprasPagasList
   },
+  {
+    path: '/area-pagamento',
+    name: 'area de pagamento',
+    component: AreaPagamentoView
+  },
+  
   ],
 })
 

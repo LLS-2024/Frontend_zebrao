@@ -13,23 +13,23 @@ const STATUS_CARRINHO = 1
 
 onMounted(async () => {
   try {
-    const resUser = await axios.get('http://localhost:8000/api/users/me/', {
+    const resUser = await axios.get('https://backend-zebrao.onrender.com/api/users/me/', {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("psg_auth_token")}`
       }
     })
-    const resCompras = await axios.get(`http://localhost:8000/api/compras/?usuario_id=${resUser.data.id}&status=${STATUS_CARRINHO}`)
-    const resProduto = await axios.get(`http://localhost:8000/api/produtos/${route.params.id}/`)
-    
+    const resCompras = await axios.get(`https://backend-zebrao.onrender.com/api/compras/?usuario_id=${resUser.data.id}&status=${STATUS_CARRINHO}`)
+    const resProduto = await axios.get(`https://backend-zebrao.onrender.com/api/produtos/${route.params.id}/`)
+
     produto.value = resProduto.data
     user.value = resUser.data
-    
+
     // Se existe uma compra com status CARRINHO, usa ela. Caso contrário, cria uma nova
     if (resCompras.data.results.length > 0) {
       compra.value = resCompras.data.results[0]
     } else {
       // Cria uma nova compra com status CARRINHO
-      const resNovaCompra = await axios.post('http://localhost:8000/api/compras/', {
+      const resNovaCompra = await axios.post('https://backend-zebrao.onrender.com/api/compras/', {
         usuario: resUser.data.id,
         itens: []
       }, {
@@ -40,7 +40,7 @@ onMounted(async () => {
       compra.value = resNovaCompra.data
       compra.value.itens = []
     }
-    
+
     console.log(compra.value)
     console.log("usuário: " + user.value)
     console.log(`token: ${localStorage.getItem("psg_auth_token")}, usuriário ID: ${resUser.data.id}`)
@@ -54,7 +54,7 @@ async function adicionarAoCarrinho() {
     alert("Compra não encontrada para o usuário.")
     return
   }
-  
+
   const itemExistente = (compra.value.itens || []).find(item => {
     const pid = typeof item.produto === 'object' ? item.produto.id : item.produto
     return pid === produto.value.id
@@ -74,7 +74,7 @@ async function adicionarAoCarrinho() {
         return { produto: itPid, quantidade: it.quantidade }
       })
 
-      await axios.patch(`http://localhost:8000/api/compras/${compra.value.id}/`, {
+      await axios.patch(`https://backend-zebrao.onrender.com/api/compras/${compra.value.id}/`, {
         itens: itensAtualizados
       }, {
         headers: {
@@ -107,7 +107,7 @@ async function adicionarAoCarrinho() {
         itensAtualizados.push({ produto: produto.value.id, quantidade: quantidade.value })
       }
 
-      const res = await axios.patch(`http://localhost:8000/api/compras/${compra.value.id}/`, {
+      const res = await axios.patch(`https://backend-zebrao.onrender.com/api/compras/${compra.value.id}/`, {
         itens: itensAtualizados
       }, {
         headers: {
