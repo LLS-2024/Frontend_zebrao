@@ -15,6 +15,7 @@ export default defineConfig({
     short_name: 'Zebrão Sorvetes',
     description: 'Zebrão: Loja de sorvetes',
     theme_color: '#ffffff',
+    display: 'standalone',
     icons: [
       {
         src: '/pwa-192x192.png',
