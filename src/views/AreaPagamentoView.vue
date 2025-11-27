@@ -1,10 +1,10 @@
 <template>
     <main class="main-pagamento">
         <div v-if="loading" class="loading-message">Carregando detalhes da compra...</div>
-        
+
         <div v-else-if="compra" class="pagamento-container">
             <h1 class="titulo">💳 Finalizar Pedido #{{ compra.id }}</h1>
-            
+
             <section class="resumo-compra">
                 <h2>Resumo do Pedido</h2>
                 <div class="detalhe-item" v-for="item in compra.itens" :key="item.id">
@@ -19,19 +19,19 @@
 
             <section class="formas-pagamento">
                 <h2>Forma de Pagamento</h2>
-                
+
                 <div class="opcoes-pagamento">
-                    <button 
+                    <button
                         :class="{ 'ativo': tipoPagamento === 'CARTAO' }"
                         @click="tipoPagamento = 'CARTAO'">
                         <i class="fas fa-credit-card"></i> Cartão
                     </button>
-                    <button 
+                    <button
                         :class="{ 'ativo': tipoPagamento === 'PIX' }"
                         @click="tipoPagamento = 'PIX'">
                         <i class="fas fa-qrcode"></i> PIX
                     </button>
-                    <button 
+                    <button
                         :class="{ 'ativo': tipoPagamento === 'DINHEIRO' }"
                         @click="tipoPagamento = 'DINHEIRO'">
                         <i class="fas fa-money-bill-wave"></i> Dinheiro
@@ -49,7 +49,7 @@
                             </div>
                         </form>
                     </div>
-                    
+
                     <div v-else-if="tipoPagamento === 'PIX'">
                         <p>Ao clicar em "Processar Pagamento", o PIX será gerado e você terá 15 minutos para pagar.</p>
                         <p class="aviso">ℹ️ O pagamento é uma simulação, mas o status da compra será atualizado para **FINALIZADO** no servidor.</p>
@@ -63,7 +63,7 @@
                     <button @click="processarPagamento" :disabled="processando" class="btn-processar">
                         {{ processando ? 'Finalizando...' : 'Processar Pagamento (Simulado)' }}
                     </button>
-                    
+
                     <div v-if="resultadoPagamento.qr_code_pix" class="resultado-pix">
                         <h3>PIX Simulado Gerado!</h3>
                         <p>Copie e cole o código abaixo para pagar:</p>
@@ -96,11 +96,11 @@ const token = localStorage.getItem("psg_auth_token")
 const compra = ref(null)
 const loading = ref(true)
 const processando = ref(false)
-const tipoPagamento = ref('CARTAO') 
-const dadosPagamento = ref({ 
-    token_cartao: 'simulado_token_12345' 
+const tipoPagamento = ref('CARTAO')
+const dadosPagamento = ref({
+    token_cartao: 'simulado_token_12345'
 })
-const resultadoPagamento = ref({ 
+const resultadoPagamento = ref({
     mensagem: '',
     status_compra: '',
     qr_code_pix: ''
@@ -122,9 +122,9 @@ onMounted(async () => {
 
     try {
         const authHeaders = { Authorization: `Bearer ${token}` }
-        
+
         const res = await axios.get(`${API_BASE_URL}/compras/${compraId}/`, { headers: authHeaders })
-        
+
         compra.value = res.data
     } catch (err) {
         console.error("Erro ao carregar detalhes da compra:", err)
@@ -139,10 +139,10 @@ async function processarPagamento() {
     if (!compra.value || processando.value) return
 
     processando.value = true
-    resultadoPagamento.value = {} 
+    resultadoPagamento.value = {}
 
     console.warn("⚠️ Simulação de Pagamento: Pulando a API de Pagamento e atualizando status via PATCH.");
-    
+
     // 1. Lógica de Simulação Local (Define a resposta para a tela)
     let statusSimulado = 'PAGO (Simulado)';
     let qrCodeSimulado = null;
@@ -157,19 +157,19 @@ async function processarPagamento() {
     resultadoPagamento.value = {
         mensagem: 'Pagamento processado com sucesso (SIMULADO).',
         status_compra: statusSimulado,
-        qr_code_pix: qrCodeSimulado 
+        qr_code_pix: qrCodeSimulado
     }
-    
-    
+
+
     // 2. 🎯 ATUALIZA STATUS NO BACKEND (Limpa o Carrinho)
     try {
         const authHeaders = { Authorization: `Bearer ${token}` };
-        
+
         // Faz o PATCH na compra para mudar o status de CARRINHO (1) para PAGO (3) ou FINALIZADO (2)
-        await axios.patch(`${API_BASE_URL}/compras/${compra.value.id}/`, { 
+        await axios.patch(`${API_BASE_URL}/compras/${compra.value.id}/`, {
             status: NOVO_STATUS_ID
-        }, { 
-            headers: authHeaders 
+        }, {
+            headers: authHeaders
         });
 
         console.log(`Status da Compra #${compra.value.id} atualizado para ID ${NOVO_STATUS_ID} com sucesso. Redirecionando...`);
@@ -179,7 +179,7 @@ async function processarPagamento() {
         console.error("Erro FATAL ao atualizar status da compra no backend:", err);
         alert("Erro ao finalizar a compra. Não foi possível limpar o carrinho. Verifique seu CompraViewSet.");
         processando.value = false;
-        return; 
+        return;
     }
 
     // 3. REDIRECIONA PARA A PÁGINA DE SUCESSO (se não for PIX)
@@ -187,16 +187,15 @@ async function processarPagamento() {
          if (tipoPagamento.value !== 'PIX') {
              setTimeout(() => {
                 router.push(`/compras-pagas`);
-            }, 500); 
+            }, 500);
         }
     }
-    
+
     processando.value = false
 }
 </script>
 
-<style scoped>
-.main-pagamento {
+<style scoped>.main-pagamento {
     display: flex;
     justify-content: center;
     padding: 40px 20px;
@@ -224,7 +223,7 @@ async function processarPagamento() {
     margin-bottom: -10px;
 }
 
-/* ======================= CAIXAS (CARD) ======================= */
+/* ======================= CARDS ======================= */
 .resumo-compra,
 .formas-pagamento {
     background: #ffffff;
@@ -233,16 +232,15 @@ async function processarPagamento() {
     box-shadow: 0px 8px 25px rgba(0, 0, 0, 0.08);
 }
 
-/* ======================= TITULOS SECUNDÁRIOS ======================= */
+/* Subtítulos */
 h2 {
     font-size: 20px;
     margin-bottom: 18px;
     font-weight: 600;
     color: #6b4bb8;
-    border: none !important;
 }
 
-/* ======================= RESUMO DO PEDIDO ======================= */
+/* ======================= RESUMO ======================= */
 .detalhe-item {
     display: flex;
     justify-content: space-between;
@@ -291,10 +289,9 @@ h2 {
     background: #d9c9ff;
     border-color: #9d5cff;
     color: #4b298b;
-    font-weight: 700;
 }
 
-/* ======================= FORM FIELDS ======================= */
+/* Inputs */
 .conteudo-pagamento input[type="text"] {
     background: #fafafa;
     padding: 14px;
@@ -313,7 +310,7 @@ h2 {
     flex: 1;
 }
 
-/* ======================= BOTÃO PRINCIPAL ======================= */
+/* Botão principal */
 .btn-processar {
     width: 100%;
     padding: 16px;
@@ -337,7 +334,7 @@ h2 {
     cursor: not-allowed;
 }
 
-/* ======================= PIX BOX ======================= */
+/* PIX */
 .resultado-pix {
     margin-top: 25px;
     padding: 22px;
@@ -355,7 +352,7 @@ h2 {
     resize: none;
 }
 
-/* ======================= ERROS ======================= */
+/* ======================= TEXTOS ======================= */
 .loading-message,
 .erro-mensagem {
     text-align: center;
@@ -364,16 +361,76 @@ h2 {
     color: #a94442;
 }
 
-/* ======================= RESPONSIVO ======================= */
-@media (max-width: 900px) {
+/* ======================= RESPONSIVIDADE ======================= */
+
+/* Tablet */
+@media (max-width: 1024px) {
     .pagamento-container {
         grid-template-columns: 1fr;
-        gap: 20px;
+        max-width: 700px;
     }
 
     .titulo {
         grid-column: 1;
         text-align: center;
     }
+
+    .opcoes-pagamento {
+        flex-wrap: wrap;
+    }
+
+    .opcoes-pagamento button {
+        flex: 1 1 45%;
+    }
 }
+
+/* Mobile */
+@media (max-width: 600px) {
+    .main-pagamento {
+        padding: 20px 10px;
+    }
+
+    .pagamento-container {
+        gap: 20px;
+    }
+
+    .titulo {
+        font-size: 24px;
+        margin-bottom: 10px;
+    }
+
+    .resumo-compra,
+    .formas-pagamento {
+        padding: 20px;
+        border-radius: 18px;
+    }
+
+    .input-group {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .opcoes-pagamento {
+        flex-direction: column;
+    }
+
+    .opcoes-pagamento button {
+        flex: 1;
+        width: 100%;
+    }
+
+    .btn-processar {
+        font-size: 15px;
+        padding: 14px;
+    }
+
+    .detalhe-item {
+        font-size: 14px;
+    }
+
+    .total-compra {
+        font-size: 18px;
+    }
+}
+
 </style>

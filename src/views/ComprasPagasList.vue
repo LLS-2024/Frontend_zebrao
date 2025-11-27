@@ -41,8 +41,7 @@ function openCompra(id) {
   </main>
 </template>
 
-<style scoped>
-.main {
+<style scoped>.main {
   padding: 32px;
   font-family: "Poppins", sans-serif;
   background: #f6f8fa;
@@ -125,4 +124,58 @@ button:active {
   font-size: 16px;
   color: #555;
 }
+
+/* 📱 MOBILE */
+@media (max-width: 480px) {
+  .main {
+    padding: 16px;
+  }
+
+  h2 {
+    font-size: 22px;
+    text-align: center;
+  }
+
+  .lista {
+    grid-template-columns: 1fr; /* 1 card por linha */
+    gap: 16px;
+  }
+
+  .card {
+    padding: 16px;
+  }
+
+  .card h3 {
+    font-size: 18px;
+  }
+
+  .card p {
+    font-size: 14px;
+  }
+
+  button {
+    padding: 12px 0;
+    font-size: 14px;
+  }
+}
+
+/* 📲 TABLET */
+@media (max-width: 768px) {
+  .main {
+    padding: 20px;
+  }
+
+  h2 {
+    font-size: 24px;
+  }
+
+  .lista {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  }
+
+  .card {
+    padding: 18px;
+  }
+}
+
 </style>

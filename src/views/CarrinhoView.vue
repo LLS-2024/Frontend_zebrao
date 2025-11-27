@@ -313,11 +313,25 @@ function voltar() {
   background-color: #f05895;
 }
 
-/* RESPONSIVO */
+/* 📱 MOBILE (até 480px) */
 @media (max-width: 480px) {
+  .main {
+    padding: 12px;
+  }
+
+  .item-carrinho {
+    padding: 12px;
+  }
+
+  .product {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
   .img img {
-    width: 60px;
-    height: 60px;
+    width: 70px;
+    height: 70px;
   }
 
   .detalhes h3 {
@@ -332,6 +346,59 @@ function voltar() {
   .vazio button {
     font-size: 14px;
     padding: 10px;
+  }
+
+  .divPreco {
+    font-size: 14px;
+  }
+}
+
+/* 📱 TABLET (481px até 768px) */
+@media (max-width: 768px) and (min-width: 481px) {
+  .main {
+    padding: 14px;
+  }
+
+  .product {
+    gap: 12px;
+  }
+
+  .img img {
+    width: 80px;
+    height: 80px;
+  }
+
+  .item-carrinho {
+    padding: 14px;
+  }
+
+  .resumo {
+    padding: 18px;
+  }
+
+  .resumo button {
+    font-size: 15px;
+  }
+}
+
+/* 🖥️ TELAS GRANDES (acima de 1200px) */
+@media (min-width: 1200px) {
+  .main {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .item-carrinho {
+    padding: 20px;
+  }
+
+  .img img {
+    width: 110px;
+    height: 110px;
+  }
+
+  .detalhes h3 {
+    font-size: 20px;
   }
 }
 

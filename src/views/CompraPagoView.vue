@@ -96,12 +96,13 @@ function voltar() {
   font-family: "Poppins", sans-serif;
   background: #f6f8fa;
   min-height: 100vh;
+  display: flex;
+  justify-content: center;
 }
 
-/* Container */
 .detalhes-compra {
+  width: 100%;
   max-width: 850px;
-  margin: 0 auto;
   background: #ffffff;
   padding: 28px;
   border-radius: 18px;
@@ -141,7 +142,7 @@ h2 {
   align-items: center;
   padding: 14px 0;
   border-bottom: 1px solid #f0f0f0;
-  transition: background 0.2s ease;
+  transition: background 0.2s ease, padding-left 0.2s ease;
 }
 
 .item:hover {
@@ -177,6 +178,7 @@ h2 {
   margin-top: 28px;
   display: flex;
   gap: 12px;
+  flex-wrap: wrap;
 }
 
 button {
@@ -187,6 +189,8 @@ button {
   font-weight: 600;
   font-size: 15px;
   transition: 0.2s ease;
+  flex: 1;
+  min-width: 140px;
 }
 
 /* Botão verde */
@@ -203,6 +207,7 @@ button:first-of-type:hover {
 /* Botão cinza */
 button:last-of-type {
   background: #d1d5db;
+  color: #111;
 }
 
 button:last-of-type:hover {
@@ -216,4 +221,65 @@ button:last-of-type:hover {
   color: #555;
   text-align: center;
 }
+
+/* ========================= */
+/* 📱 RESPONSIVO MOBILE */
+/* ========================= */
+@media (max-width: 600px) {
+  .main {
+    padding: 16px;
+  }
+
+  .detalhes-compra {
+    padding: 20px;
+    border-radius: 14px;
+  }
+
+  h2 {
+    font-size: 22px;
+    text-align: center;
+  }
+
+  .item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .item img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+  }
+
+  .acoes {
+    flex-direction: column;
+  }
+
+  button {
+    width: 100%;
+  }
+}
+
+/* ========================= */
+/* 📲 RESPONSIVO TABLET */
+/* ========================= */
+@media (max-width: 900px) {
+  .detalhes-compra {
+    padding: 24px;
+  }
+
+  .item img {
+    width: 75px;
+    height: 75px;
+  }
+
+  .item h4 {
+    font-size: 16px;
+  }
+
+  .item p {
+    font-size: 13px;
+  }
+}
+
 </style>
